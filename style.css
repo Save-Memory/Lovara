@@ -1454,3 +1454,9 @@ html, body {
 }
 touch-callout: none;
 }
+/* ⚡ ضمان وصول ضغطة اللمس للكارت مباشرة على الموبايل */
+.card-image, 
+.card-overlay, 
+.burgundy-frame {
+  pointer-events: none;
+}

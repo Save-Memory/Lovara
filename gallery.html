@@ -194,23 +194,23 @@ Drag the image or use the arrows, and tap on the image</p>
     
   </a>
 
-<audio id="bgMusic" src="music.mp3"preload="auto" loop></audio>
+<audio id="bgmusic" src="music.mp3"preload="auto" loop></audio>
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script src="script.js"></script>
   <script>
   document.addEventListener("DOMContentLoaded", function () {
     document.addEventListener("DOMContentLoaded", function () {
       // 🎵 1. تشغيل وتأمين الصوت فوراً
-      const bgMusic = document.getElementById("bgMusic");
+      const bgmusic = document.getElementById("bgMusic");
 
       const savedTime = localStorage.getItem("audioTime");
       if (savedTime && bgMusic) {
-        bgMusic.currentTime = parseFloat(savedTime);
+        bgmusic.currentTime = parseFloat(savedTime);
       }
 
       function startAudioFast() {
-        if (bgMusic && bgMusic.paused) {
-          bgMusic.play().catch(() => {});
+        if (bgmusic && bgmusic.paused) {
+          bgmusic.play().catch(() => {});
         }
       }
 
@@ -221,9 +221,9 @@ Drag the image or use the arrows, and tap on the image</p>
       document.addEventListener("click", startAudioFast, { once: true });
 
       // حفظ الوقت باستمرار
-      if (bgMusic) {
-        bgMusic.addEventListener("timeupdate", () => {
-          localStorage.setItem("audioTime", bgMusic.currentTime);
+      if (bgmusic) {
+        bgmusic.addEventListener("timeupdate", () => {
+          localStorage.setItem("audioTime", bgmusic.currentTime);
         });
       }
     const swiperInstance = document.querySelector('.swiper')?.swiper;

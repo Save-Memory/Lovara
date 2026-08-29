@@ -1,0 +1,1294 @@
+/* =========================================
+   تنعيم السكرول وتسريع الصور على الموبايل
+   ========================================= */
+html {
+  scroll-behavior: smooth;
+}
+
+img, .card-image {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* =========================================
+   1. الإعدادات العامة والخلفية
+   ========================================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #f5eee4;
+  color: #3b332c;
+  font-family: 'Cormorant Garamond', 'Amiri', serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+/* =========================================
+   1. الإعدادات العامة والخلفية
+   ========================================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #f5eee4;
+  color: #3b332c;
+  font-family: 'Cormorant Garamond', 'Amiri', serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.page-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  min-height: 100vh;
+  position: relative;
+  z-index: 2;
+}
+
+/* القلوب الثابتة في الخلفية */
+
+.hearts-container {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+  z-index: 1 !important; /* لضمان ظهورها فوق خلفية الصفحات */
+}
+
+/* =========================================
+   تأثير ظهور القلوب وانسيابها من الأسفل مع الكلام
+   ========================================= */
+
+/* جعل القلوب تبدأ من وضع مخفي وتحت الشاشة */
+.heart-item {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c27a88' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'%3E%3C/path%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  
+  /* حالة البداية: غير ظاهرة ومزاحة للأسفل قليلاً */
+  opacity: 0;
+  
+  /* تفعيل أنيميشن الظهور والتصاعد عند تحميل الصفحة */
+  animation: heartRiseIn 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards,
+             heartFloat 5s ease-in-out infinite alternate 1.2s;
+}
+
+/* 1. أنيميشن الظهور والصعود من الأسفل مع دخول الكلام */
+@keyframes heartRiseIn {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.7);
+  }
+  100% {
+    opacity: 0.65;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 2. أنيميشن الطفو الهادئ المستمر بعد الانتهاء من الظهور */
+@keyframes heartFloat {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-15px);
+  }
+}
+/* 4 قلوب أيسر الشاشة */
+.h-left-1  { top: 10%;  left: 7%;  transform: scale(0.8)  rotate(-15deg); animation-duration: 4.8s; }
+.h-left-2  { top: 35%;  left: 14%; transform: scale(1.1)  rotate(10deg);  animation-duration: 6s;   animation-delay: 1s; }
+.h-left-3  { top: 60%;  left: 8%;  transform: scale(0.9)  rotate(-5deg);  animation-duration: 5.2s; animation-delay: 2s; }
+.h-left-4  { bottom: 12%; left: 16%; transform: scale(1.05) rotate(20deg);  animation-duration: 5.5s; animation-delay: 0.5s; }
+
+/* 4 قلوب أيمن الشاشة */
+.h-right-1 { top: 15%;  right: 12%; transform: scale(1.15) rotate(18deg);  animation-duration: 5.8s; animation-delay: 1.5s; }
+.h-right-2 { top: 40%;  right: 6%;  transform: scale(0.85) rotate(-12deg); animation-duration: 4.5s; animation-delay: 0.2s; }
+.h-right-3 { top: 65%;  right: 14%; transform: scale(1.2)  rotate(8deg);   animation-duration: 6.2s; animation-delay: 2.5s; }
+.h-right-4 { bottom: 8%; right: 9%;  transform: scale(1)    rotate(-10deg); animation-duration: 5s;   animation-delay: 0.8s; }
+
+/* حركة الطفو */
+@keyframes heartFloat {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-15px); }
+}
+
+/* =========================================
+   2. الصفحة الأولى (index.html) والموشن
+   ========================================= */
+   .bear-logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+  z-index: 2;
+}
+
+.bear-logo-img {
+  width: 140px !important; /* حجم مضبوط تماماً غير ضخم */
+  height: auto !important;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 12px rgba(107, 29, 47, 0.12));
+  animation: bearFloat 3.5s ease-in-out infinite alternate;
+}
+
+@keyframes bearFloat {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-6px) scale(1.02); }
+}
+/* 1. تقليل المسافة تحت الدبدوب */
+.bear-logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2px !important; /* تقليل المسافة جداً تحت الدبدوب */
+  z-index: 2;
+}
+
+/* 2. تكبير النص التوضيحي وتقريب المسافة */
+.subtitle-tag {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.15rem !important; /* تكبير الخط */
+  letter-spacing: 3px;
+  color: var(--primary-color);
+  font-weight: 600;
+  margin-top: 0 !important;
+  margin-bottom: 4px !important; /* مسافة صغيرة جداً تحت الكلام */
+  text-align: center;
+  opacity: 0.95;
+  z-index: 2;
+}
+
+/* 3. تكبير العنوان الرئيسي Congratulations Malak */
+.header h1 {
+  font-family: 'Playfair Display', serif;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  margin-bottom: 20px;
+  z-index: 2;
+}
+
+.header h1 span:first-child {
+  font-size: 2.2rem !important; /* تكبير كلمة Congratulations */
+  font-weight: 600;
+  color: var(--text-color);
+  line-height: 1.1;
+}
+
+.header h1 .name {
+  font-size: 3.00rem !important; /* تكبير اسم Malak بشكل بارز جداً */
+  font-weight: 700;
+  color: var(--primary-color);
+  font-style: italic;
+  line-height: 1.1;
+}
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #5c1d24;
+  text-align: center;
+}
+
+.subtitle-tag {
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  color: #8c7362;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.3rem;
+  font-weight: 400;
+  line-height: 1.25;
+  color: #2b221b;
+}
+
+.header h1 span {
+  display: block;
+}
+
+.header h1 .name {
+  font-style: italic;
+  font-weight: 600;
+  color: #6b1d2f;
+  margin-top: 6px;
+}
+
+/* الإطار البيضاوي الـ 3D (بنفس لون الخلفية) */
+.message-frame-box.oval-frame.side-layout {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  background-color: #f7f3ec; /* نفس لون الخلفية */
+  border: 3px solid #6b1d2f;
+  border-radius: 60px / 40px;
+  padding: 26px 32px 22px 32px;
+  box-shadow: 
+    0 12px 28px rgba(107, 29, 47, 0.15),
+    0 4px 8px rgba(0, 0, 0, 0.05),
+    inset 0 2px 4px rgba(255, 255, 255, 0.8),
+    inset 0 -3px 6px rgba(107, 29, 47, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 15px;
+  overflow: hidden;
+}
+
+/* قلوب مصغرة مفرغة داخل الإطار */
+.frame-heart {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid rgba(107, 29, 47, 0.25);
+  transform: rotate(-45deg);
+  pointer-events: none;
+}
+
+.frame-heart::before,
+.frame-heart::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid rgba(107, 29, 47, 0.25);
+  border-radius: 50%;
+}
+
+.frame-heart::before {
+  top: -9px;
+  left: -1px;
+  border-bottom: none;
+  border-right: none;
+}
+
+.frame-heart::after {
+  left: 8px;
+  top: -1px;
+  border-bottom: none;
+  border-left: none;
+}
+
+.heart-top-left {
+  top: 12px;
+  left: 20px;
+  transform: rotate(-30deg) scale(0.8);
+}
+
+.heart-bottom-right {
+  bottom: 15px;
+  right: 25px;
+  transform: rotate(-60deg) scale(0.85);
+}
+
+.frame-text {
+  font-family: 'Amiri', serif;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #2c2825;
+  font-weight: 700;
+  text-align: right;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+/* زر Of course */
+.of-course-btn {
+  background-color: #6b1d2f;
+  color: #f7f3ec;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 30px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: lowercase;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  align-self: flex-end;
+  box-shadow: 0 4px 12px rgba(107, 29, 47, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+  position: relative;
+  z-index: 2;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.of-course-btn::first-letter {
+  text-transform: uppercase;
+}
+
+.of-course-btn:hover {
+  background-color: #581624;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(107, 29, 47, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.of-course-btn:active,
+.of-course-btn.pressed {
+  transform: translateY(2px) scale(0.95) !important;
+  box-shadow: 0 1px 4px rgba(107, 29, 47, 0.2), inset 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+  background-color: #430e1a !important;
+}
+
+/* الموشن المتتابع */
+.motion-item {
+  opacity: 0;
+  transform: translateY(35px);
+  animation: slideUpFade 0.9s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.delay-1 { animation-delay: 0.2s; }
+.delay-2 { animation-delay: 0.5s; }
+.delay-3 { animation-delay: 0.8s; }
+.delay-4 { animation-delay: 1.1s; }
+
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(35px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   3. الصفحة الثانية (gallery.html)
+   ========================================= */
+.section-title {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.section-title h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: #2b221b;
+}
+
+.section-title p {
+  font-size: 0.85rem;
+  color: #706256;
+  margin-top: 5px;
+}
+
+.pro-gallery-container {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.swiper {
+  width: 100%;
+  height: 420px;
+}
+
+.swiper-slide {
+  border-radius: 16px;
+  overflow: visible !important;
+  background: transparent !important;
+  perspective: 1000px !important;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  transition: transform 0.6s ease-in-out;
+  transform-style: preserve-3d !important;
+  cursor: pointer;
+}
+
+.card-inner.flipped {
+  transform: rotateY(180deg) !important;
+}
+
+.card-front, 
+.card-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  -webkit-backface-visibility: hidden !important;
+  backface-visibility: hidden !important;
+  overflow: hidden;
+}
+
+.card-front {
+  z-index: 2;
+  transform: rotateY(0deg);
+}
+
+.burgundy-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  background: linear-gradient(145deg, #6b1d2f, #4a121e);
+  border-radius: 16px;
+  border: 1px solid #8c273e;
+  box-shadow: 0 15px 30px rgba(60, 15, 25, 0.3);
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+}
+
+.card-overlay {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  padding: 12px;
+  border-radius: 10px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.card-badge {
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  color: #e2be72;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.card-caption {
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+}
+
+.card-back {
+  background: #fdfaf6 !important;
+  border: 3px solid #6b1d2f !important;
+  transform: rotateY(180deg) !important;
+  padding: 30px 20px;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 1;
+}
+
+.back-badge {
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  color: #f7f3ec;
+  background: #6b1d2f;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.back-text {
+  font-family: 'Amiri', serif !important;
+  font-size: 1.15rem !important;
+  line-height: 1.8 !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+.gallery-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  margin-top: 18px;
+}
+
+.nav-arrow {
+  background: #ffffff;
+  color: #6b1d2f;
+  border: 2px solid #6b1d2f;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(107, 29, 47, 0.15);
+  transition: all 0.2s ease;
+}
+
+.nav-arrow:hover {
+  background: #6b1d2f;
+  color: #ffffff;
+}
+
+.explore-btn {
+  background: rgba(107, 29, 47, 0.06);
+  border: 1px solid rgba(107, 29, 47, 0.25);
+  padding: 14px 28px;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  color: #5c1d24;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+
+.explore-btn:hover {
+  background: #6b1d2f;
+  color: #f7f3ec;
+  transform: translateY(-2px);
+}
+
+/* =========================================
+   4. الصفحة الثالثة (letter.html)
+   ========================================= */
+.main-letter-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  min-height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+}
+
+.envelope-sealed {
+  position: relative;
+  width: 300px;
+  height: 200px;
+  background-color: #581624;
+  border-radius: 8px;
+  box-shadow: 0 15px 35px rgba(60, 15, 25, 0.25);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.5s ease;
+}
+
+.envelope-sealed:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(60, 15, 25, 0.35);
+}
+
+.env-top-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 150px solid transparent;
+  border-right: 150px solid transparent;
+  border-top: 110px solid #6b1d2f;
+  z-index: 2;
+}
+
+.env-bottom-pocket {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 150px solid #531422;
+  border-right: 150px solid #48111d;
+  border-bottom: 100px solid #410e1a;
+  z-index: 3;
+  border-radius: 0 0 8px 8px;
+}
+
+.wax-seal {
+  position: absolute;
+  top: 85px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #d4af37, #aa820a);
+  border-radius: 50%;
+  border: 2px solid #8c6a08;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3d2a02;
+  font-family: 'Playfair Display', serif;
+  font-size: 0.85rem;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  z-index: 4;
+}
+
+.envelope-hint {
+  position: absolute;
+  bottom: -40px;
+  color: #706256;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.full-letter-card {
+  width: 100%;
+  max-width: 340px;
+  background: #ffffff !important;
+  color: #2c2825;
+  border-radius: 12px;
+  padding: 35px 25px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #ebdcd0;
+  position: relative;
+  z-index: 30;
+}
+
+.letter-content {
+  margin: 30px 0;
+}
+
+.letter-content h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  color: #5c1d24;
+  margin-bottom: 15px;
+}
+
+.arabic-text {
+  font-family: 'Amiri', serif;
+  font-size: 1.20rem;
+  line-height: 1.8;
+  color: #383431;
+}
+
+.arabic-text::after {
+  content: '|';
+  color: #6b1d2f;
+  animation: blinkCaret 0.8s infinite;
+}
+
+@keyframes blinkCaret {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.letter-footer {
+  font-size: 1.40rem;
+  letter-spacing: 2px;
+  color: #8c7362;
+  border-top: 1px solid #f0e6df;
+  padding-top: 15px;
+}
+
+.dark-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+  z-index: 10;
+}
+
+.dark-overlay.active {
+  opacity: 1;
+}
+
+.back-link {
+  margin-top: 35px;
+  color: #706256;
+  text-decoration: none;
+  font-size: 0.85rem;
+  position: relative;
+  z-index: 25;
+}
+
+.fade-out {
+  opacity: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+}
+
+.hidden-letter {
+  display: none;
+  opacity: 0;
+}
+
+.fade-in {
+  display: flex !important;
+  animation: fadeInLetter 0.6s ease forwards;
+}
+
+@keyframes fadeInLetter {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+/* زر تشغيل الموسيقى العائم */
+.music-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #6b1d2f;
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(107, 29, 47, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.music-btn:active {
+  transform: scale(0.9);
+}
+/* =========================================
+   تعتيم الخلفية أثناء كتابة الرسالة 
+   بروز القلوب والكارت فقط فوق التعتيم
+   ========================================= */
+
+/* 1. طبقة التعتيم السوداء/الداكنة الشفافة */
+.message-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.55); /* درجة التعتيم */
+  backdrop-filter: blur(3px); /* تأثير ضبابي خفيف وجمالي على الخلفية */
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease; /* تنقل ناعم جداً عند التعتيم */
+}
+
+/* عندما يتفعل التعتيم */
+.message-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 2. رفع القلوب فوق طبقة التعتيم لتظل بارزة ومضيئة */
+.hearts-container {
+  z-index: 200 !important; /* أعلى من التعتيم (100) */
+}
+
+/* 3. رفع كارت الرسالة نفسه فوق التعتيم والقلوب */
+.message-card, .letter-container, .card {
+  position: relative;
+  z-index: 300 !important; /* أعلى طبقة على الإطلاق */
+}
+/* =========================================
+   تنسيق كارت الرسالة الإنجليزي وطبقة التعتيم
+   ========================================= */
+
+/* حالة إخفاء الكارت في البداية */
+.hidden-letter {
+  display: none !important;
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+}
+
+/* تنسيق كارت الرسالة الأبيض */
+.card-letter {
+  background: #ffffff;
+  width: 90%;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 30px 25px;
+  border-radius: 16px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  text-align: left;
+  position: relative;
+  z-index: 300 !important; /* للبروز فوق التعتيم والقلوب */
+  direction: ltr !important;
+  transition: all 0.5s ease-out;
+}
+
+/* ظهور الكارت بعد الضغط على الظرف */
+.card-letter.fade-in {
+  display: block !important;
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+}
+
+/* محتوى ورقة الرسالة بالإنجليزي */
+.letter-content h3 {
+  color: #8b263e;
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  margin-bottom: 15px;
+  text-align: center;
+  direction: ltr !important;
+}
+
+.english-text {
+  color: #4a4a4a;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 19px;
+  line-height: 1.6;
+  direction: ltr !important;
+  text-align: left !important;
+  min-height: 110px;
+}
+
+.letter-footer {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px dashed #e0e0e0;
+  color: #8b263e;
+  font-weight: bold;
+  text-align: center;
+  direction: ltr !important;
+}
+
+/* طبقة التعتيم */
+/* =========================================
+   تأكيد بروز كارت الرسالة فقط فوق التعتيم
+   ========================================= */
+
+/* 1. طبقة التعتيم للفيو الكامل */
+.dark-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(0, 0, 0, 0.65) !important; /* درجة التعتيم */
+  backdrop-filter: blur(3px) !important;
+  z-index: 100 !important; /* التعتيم في الطبقة 100 */
+}
+
+/* 2. القلوب تظل بارزة مع التعتيم */
+.hearts-container {
+  z-index: 200 !important; /* القلوب أعلى من التعتيم */
+}
+
+/* 3. كارت الرسالة يبرز ناصعاً في المقدمة فوق التعتيم والقلوب */
+.card-letter, 
+#fullLetter {
+  position: relative !important;
+  z-index: 9999 !important; /* أعلى طبقة بالكامل حتى يبرز من التعتيم */
+  background-color: #ffffff !important; /* لون أبيض ناصع بارز */
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5) !important; /* ظل قوي لإبرازه من الخلفية */
+}
+
+/* زر العودة يظل قابل للضغط */
+.back-link {
+  position: relative !important;
+  z-index: 10000 !important;
+}
+/* =========================================
+   إصلاح بروز الرسالة فوق التعتيم في الصفحة الثالثة
+   ========================================= */
+
+/* 1. رفع الحاوية الرئيسية للرسالة فوق التعتيم */
+.main-letter-wrapper {
+  position: relative !important;
+  z-index: 1000 !important; /* لضمان رفع الحاوية بالكامل فوق التعتيم */
+}
+
+/* 2. تأكيد أن التعتيم يظل في الخلفية */
+.dark-overlay {
+  z-index: 100 !important;
+}
+
+/* 3. إبراز كارت الرسالة الأبيض في المقدمة تماماً */
+#fullLetter, 
+.card-letter {
+  position: relative !important;
+  z-index: 9999 !important; /* أعلى طبقة في الصفحة */
+  background-color: #ffffff !important; /* لون أبيض واضح */
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6) !important;
+}
+/* =========================================
+   تنسيق زرار Go Back مع الحفاظ على أماكن الظرف والرسالة
+   ========================================= */
+
+/* 1. إخفاء الزرار تماماً في الوضع الطبيعي */
+#backLink,
+.back-link {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* 2. إظهار الزرار بطريقة هادئة وتثبيته أسفل الشاشة عند تفعيل التعتيم */
+#backLink[style*="display"],
+#backLink.is-visible {
+  display: inline-flex !important;
+  visibility: visible !important;
+  opacity: 0.6 !important; /* درجة خافتة وهادئة */
+  
+  /* تثبيت الزرار بالأسفل مطلقاً حتى لا يؤثر على مكان الظرف أو الرسالة */
+  position: fixed !important;
+  bottom: 25px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  
+  padding: 8px 18px !important;
+  background: rgba(0, 0, 0, 0.45) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 20px !important;
+  backdrop-filter: blur(5px) !important;
+  
+  font-family: 'Playfair Display', serif;
+  font-size: 13px !important;
+  text-decoration: none !important;
+  
+  z-index: 9999999 !important; /* رفعه فوق التعتيم فقط */
+  transition: opacity 0.3s ease !important;
+}
+
+#backLink:hover {
+  opacity: 1 !important;
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+/* =========================================
+   تطبيق الخط المائل الأنيق على العنوان والاسم
+   ========================================= */
+
+/* 1. تطبيق الخط المائل على عبارة Happy Birthday my Amazing girl */
+.header h1 span {
+  font-family: 'Great Vibes', cursive !important;
+  font-size: 3.2rem !important; /* حجم متناسق للعبارة */
+  font-weight: normal !important;
+  line-height: 1.3 !important;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* 2. تطبيق الخط المائل على اسم Maloka مع تكبيره قليلاً ليكون بارزاً */
+.header h1 span.name {
+  font-family: 'Great Vibes', cursive !important;
+  font-size: 4rem !important;   /* حجم أكبر للاسم */
+  font-weight: bold !important;
+  display: block;              /* لجعل الاسم في سطر مستقل أنيق */
+  margin-top: 5px;
+}
+/* =========================================
+   تنزيل النص للكتابة (Happy Birthday) لأسفل
+   ========================================= */
+
+.header, 
+.header h1 {
+  position: relative !important;
+  top: 2px !important; /* ينزل الكلام لتحت بمسافة 30 بكسل */
+}
+/* =========================================
+   رفع الإطار البيضاوي مسافة صغيرة للأعلى
+   ========================================= */
+
+.message-frame-box.oval-frame {
+  position: relative !important;
+  top: -40px !important;        /* يرفعه مسافة صغيرة جداً لفوق */
+  margin-bottom: -15px !important; /* يحافظ على باقي أبعاد الصفحة دون تخريب */
+}
+/* =========================================
+   تنزيل صورة الدبدوب لأسفل مسافة صغيرة
+   ========================================= */
+
+.bear-logo-wrapper {
+  position: relative !important;
+  top: -15px !important; /* ينزل الدبدوب لتحت مسافة صغيرة */
+}
+/* =========================================
+   رفع نص Amazing Memories للأعلى
+   ========================================= */
+
+.subtitle-tag {
+  position: relative !important;
+  top: -6px !important; /* يرفع الكلمة لفوق */
+}
+/* =========================================
+   تنسيقات صفحة الرسالة (الظرف والكارت)
+   ========================================= */
+
+/* 1. جعل نص Click Here to open واضح وبولد جداً */
+.envelope-hint {
+  font-weight: 800 !important;
+  font-size: 1.1rem !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* 2. جعل نص الرسالة الإنجليزي بخط مائل أنيق */
+#typewriterText,
+.card-letter .english-text {
+  font-style: italic !important;
+  font-family: 'Playfair Display', serif !important;
+}
+
+/* 3. جعل كلمة I will always love you واضحة وبولد */
+.letter-footer p {
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+  opacity: 1 !important;
+}
+/* =========================================
+   حل نهائي لقص العلامة/البادج العلوي
+   ========================================= */
+
+/* 1. قص أي عنصر طالع بره الكارت من الأجناب أو فوق */
+.card-front {
+  position: relative !important;
+  overflow: hidden !important; /* بيضمن إن أي حاجة طالعة من فوق تتقص فوراً */
+  border-radius: 24px !important;
+}
+
+/* 2. ضبط البرجاندي والصورة جواه بالظبط */
+.burgundy-frame {
+  border: 1.5px solid #6b1d2f !important; /* خط برجاندي رفيع */
+  border-radius: 22px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+.card-image {
+  border-radius: 22px !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+/* 3. التأكد من إن البادج/العلامة مش طالعة بره الحاوية من فوق */
+.card-overlay,
+.card-badge {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+/* =========================================
+   تصغير حجم الكروت والسلايدر بالكامل
+   ========================================= */
+
+/* 1. تصغير أبعاد الكارت نفسه */
+.mySwiper {
+  width: 280px !important;  /* العرض الجديد المصغر (بدل 320px أو أكتر) */
+  height: 400px !important; /* الارتفاع الجديد المصغر */
+}
+
+/* 2. ضبط حجم الكارت الداخلي */
+.swiper-slide {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* 3. تقليل مساحة أسهم التنقل لتناسب الحجم الجديد */
+.gallery-controls {
+  margin-top: 15px !important;
+}/* =========================================
+   جعل ظهر الكروت شفافاً لإظهار القلوب وخلفية الصفحة
+   ========================================= */
+
+/* 1. جعل خلفية ظهر الكارت شبه شفافة وتنعيمها */
+.card-back {
+  background: rgba(25, 10, 15, 0.75) !important; /* لون داكن ناعم بنسبة شفافية تسمح بظهور القلوب */
+  backdrop-filter: blur(8px) !important;          /* إضافة تأثير ضبابي راقي خلف النص */
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1.5px solid rgba(216, 167, 177, 0.3) !important; /* برواز بينك خفيف وأنيق */
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* 2. تحسين وضوح النص فوق الخلفية الشفافة */
+.back-text {
+  color: #fff !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8) !important; /* ظل خفيف للخط لضمان القراءة بوضوح */
+}
+
+/* 3. إبراز الشارة فوق الكارت */
+.back-badge {
+  background-color: rgba(107, 29, 47, 0.85) !important;
+  border: 1px solid rgba(216, 167, 177, 0.5) !important;
+}
+/* =========================================
+   تأثير الخط المائل والتكبير للعنوان
+   ========================================= */
+
+.section-title h2 {
+  font-style: italic !important;
+  font-size: 1.90rem !important; /* تكبير حجم الخط بشكل مناسب وأنيق */
+  line-height: 1.3 !important;
+  letter-spacing: 0.5px !important; /* توسيع المسافات بين الحروف قليلاً لإعطاء لمسة فخمة */
+}
+/* =========================================
+   تأثير تكبير وتوضيح نص التعليمات تحت العنوان
+   ========================================= */
+
+.section-title p {
+  font-size: 1.30rem !important; /* تكبير حجم الخط */
+  font-weight: 500 !important;   /* زيادة سمك الخط قليلاً ليصبح أوضح */
+  color: #550011 !important;     /* لون بينك عنابي ناعم وواضح على الخلفية الغامقة */
+  margin-top: 8px !important;    /* ضبط المسافة بينه وبين العنوان العلوي */
+  opacity: 0.95 !important;
+}/* =========================================
+   تنسيق زر المفاجآت (More surprises)
+   ========================================= */
+
+.explore-btn {
+  background-color: #6b1d2f !important; /* لون عنابي برجاندي فخم */
+  color: #ffffff !important;            /* لون النص أبيض ناصع */
+  font-size: 1.10rem !important;        /* تكبير الحجم ليصبح واضحاً */
+  font-weight: 700 !important;          /* جعل الخط عريضاً (Bold) */
+  padding: 14px 28px !important;        /* توسيع مساحة الزر */
+  border-radius: 30px !important;       /* حواف دائرية أنيقة */
+  border: 1.5px solid rgba(216, 167, 177, 0.4) !important; /* إطار بينك خفيف */
+  box-shadow: 0 6px 20px rgba(107, 29, 47, 0.4) !important; /* ظلال خلف الزر */
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+  cursor: pointer !important;
+}
+
+/* 1. تأثير عند العبور بالماوس أو اللمس (Hover Effect) */
+.explore-btn:hover {
+  background-color: #802238 !important; /* فتح لون البرجاندي قليلاً عند التمرير */
+  transform: translateY(-3px) scale(1.03) !important; /* ارتفاع خفيف للزر للأعلى */
+  box-shadow: 0 10px 25px rgba(107, 29, 47, 0.6) !important; /* زيادة الإضاءة والظل */
+}
+
+/* 2. تأثير ضغطة الزر فوراً عند الكليك (Click / Active Effect) */
+.explore-btn:active {
+  transform: translateY(1px) scale(0.97) !important; /* انغماس الزر للداخل لخلق شعور الضغطة الحقيقية */
+  box-shadow: 0 3px 10px rgba(107, 29, 47, 0.4) !important;
+}
+/* =========================================
+   تكبير وتوضيح النصوص فوق الصورة (card-overlay)
+   ========================================= */
+
+/* 1. تكبير كلمة comfortable zone (الشارة العلويّة) */
+.card-badge {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 0.95rem !important; /* تكبير الخط */
+  font-weight: 700 !important;   /* جعل الخط بولد وعريض */
+  letter-spacing: 1px !important;/* توسيع المسافة بين الحروف لإعطاء مظهر أنيق */
+  padding: 5px 12px !important;  /* توسيع البرواز حول الكلمة ليناسب الحجم الجديد */
+}
+
+/* 2. تكبير التاريخ 5/2/2026 (النص السفلي) */
+.card-caption {
+  font-size: 1.1rem !important;  /* تكبير خط التاريخ */
+  font-weight: 600 !important;   /* توضيح الخط */
+  margin-top: 6px !important;    /* ضبط المسافة بينه وبين الشارة */
+  color: #ffffff !important;     /* التأكد من نصوع اللون الأبيض */
+}
+
+/* =========================================
+   تغيير خط التاريخ والأرقام
+   ========================================= */
+
+/* استدعاء خطوط ممتازة للأرقام والتواريخ من Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@600;700&family=Bodoni+Moda:ital,wght@0,600;1,600&display=swap');
+
+.card-caption {
+  /* اختاري واحد من الخيارات التالية بحسب ذوقك: */
+  
+  /* الخيار 1: خط Cinzel (أنظر كلاسيكي روماني فخم جداً للأرقام) */
+  font-family: 'Cinzel', serif !important;
+  
+  /* الخيار 2: خط Montserrat (مودرن، واضح جداً وعصري) */
+  /* font-family: 'Montserrat', sans-serif !important; */
+
+  /* الخيار 3: خط Bodoni Moda (خط مجلات وتصميمات عالمية راقية) */
+  /* font-family: 'Bodoni Moda', serif !important; */
+
+  font-size: 1.02rem !important;        /* تكبير الحجم ليكون مميزاً */
+  font-weight: 700 !important;        /* إبراز الأرقام بشكل عريض */
+  letter-spacing: 2px !important;     /* تباعد أنيق بين أرقام التاريخ */
+}
+/* =========================================
+   تثبيت اللوجو وإلغاء الحركة
+   ========================================= */
+
+.bear-logo-img {
+  animation: none !important; /* إلغاء حركة الطفو (bearFloat) نهائياً */
+  transform: none !important; /* التأكد من ثبات اللوجو في وضعه الأصلي */
+}/* =========================================
+   حماية الكارت ومنع اللف تماماً إلا عند البروز
+   ========================================= */
+
+/* منع أي تأثير rotation نهائياً في الوضع العادي */
+/* ده بيلغي أي تأثير قديم لـ :hover أو للـ Swiper */
+.swiper-slide:not(.is-popped) .card-inner,
+.swiper-slide .card-inner {
+  transform: none !important;
+  transform: scale(1) rotateY(0deg) !important;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+/* رفع ترتيب الكارت البارز ليكون في المقدمة */
+.swiper-slide.is-popped {
+  z-index: 9999 !important;
+}
+
+/* الضغطة 1: بروز الكارت للأمام وتكبره تماماً، ولكن بدون قلب */
+.swiper-slide.is-popped .card-inner {
+  transform: scale(1.22) rotateY(0deg) !important; /* التأكيد على واجهة الصورة */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* الضغطة 2: قلب الكارت لإظهار الظهر والرسالة - مسموح فقط للـ is-popped */
+.swiper-slide.is-popped.is-flipped .card-inner {
+  transform: scale(1.22) rotateY(180deg) !important;
+}

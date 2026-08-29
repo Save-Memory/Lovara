@@ -226,13 +226,15 @@
       // 🃏 2. التحكم في حركة الكروت و Swiper مع حماية الآيفون
      const swiperInstance = document.querySelector('.swiper')?.swiper;
 
+// 🃏 منع حركة الكروت وزرار الصوت أثناء الـ Scroll
+const swiperInstance = document.querySelector('.swiper')?.swiper;
+
 if (swiperInstance) {
-  // إعدادات منع الاهتزاز وتثبيت الكروت
   swiperInstance.params.observer = true;
   swiperInstance.params.observeParents = true;
-  swiperInstance.params.touchReleaseOnEdges = true; // فصل حركة الـ Scroll عن الصور
-  swiperInstance.params.resistanceRatio = 0;        // منع شد الكارت خارج حدود الشاشة
-  swiperInstance.params.nested = true;             // احتواء حركة السحب داخل الكارت فقط
+  swiperInstance.params.touchEventsTarget = 'wrapper'; // قصر حركة اللمس على الكروت فقط
+  swiperInstance.params.touchReleaseOnEdges = true;   // فصل Scroll الصفحة عن السحب
+  swiperInstance.params.resistanceRatio = 0;          // منع شد الكارت برة الشاشة
   swiperInstance.update();
 }
 

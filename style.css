@@ -1338,3 +1338,45 @@ body {
   }
 }
 }
+/* 1. إجبار الصفحة تأخد ارتفاع وعرض الشاشة بالكامل */
+html, body {
+  width: 100%;
+  height: 100vh; /* 100vh يعني كامل ارتفاع شاشة الجهاز */
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* 2. ضبط حاوية السلايدر (Swiper) لتملأ الشاشة */
+.swiper {
+  width: 100%;
+  height: 80vh; /* بياخد 80% من ارتفاع الشاشة وبيسيب مساحة للزرار تحت */
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+/* 3. ضبط الكروت جوه السلايدر عشان تتظبط تلقائياً */
+.swiper-slide {
+  background-position: center;
+  background-size: cover;
+  width: 280px;  /* عرض المناسب للموبايل */
+  height: 400px; /* ارتفاع الكارت */
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 4. إجبار الصور نفسها جوه الكارت إنها تملأ الكارت من غير ما تخرج براه */
+.swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* بيضمن إن الصورة متتمطش وتملأ الكارت بشكل حلو */
+  border-radius: 15px;
+}
+@media (max-width: 480px) {
+  .swiper-slide {
+    width: 230px;  /* تصغير عرض الكارت للموبايل */
+    height: 340px; /* تصغير ارتفاع الكارت */
+  }
+}

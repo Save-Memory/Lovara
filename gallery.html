@@ -221,55 +221,57 @@
         bgMusic.addEventListener("timeupdate", () => {
           localStorage.setItem("audioTime", bgMusic.currentTime);
         });
-<script>        
+<script>
 document.addEventListener("DOMContentLoaded", function () {
-  const swiperInstance = document.querySelector('.swiper')?.swiper;
+  // 1. إعادة إنشاء Swiper بشكل كامل باللف والبروز الأصلي
+  const swiper = new Swiper('.mySwiper', {
+    effect: 'cards',
+    grabCursor: true,
+    initialSlide: 0,
+    nested: true, // يمنع تحريك الشاشة وزر الصوت أثناء سحب الصور
+    touchReleaseOnEdges: true,
+    cardsEffect: {
+      perSlideRotate: 2,
+      perSlideOffset: 8,
+      slideShadows: false,
+    },
+  });
 
-  function toggleSwiperControls(disable) {
-    if (!swiperInstance) return;
-    if (disable) {
-      swiperInstance.allowTouchMove = false; 
-      if (swiperInstance.navigation) {
-        swiperInstance.navigation.disable(); 
-      }
-    } else {
-      swiperInstance.allowTouchMove = true; 
-      if (swiperInstance.navigation) {
-        swiperInstance.navigation.enable(); 
-      }
-    }
-  }
-
-  // 1. الضغط على الكروت (بروز ثم قلب ثم إرجاع)
+  // 2. التحكم في البروز (is-popped) والقلب (is-flipped)
   document.querySelectorAll('.swiper-slide').forEach(slide => {
-    slide.addEventListener('click', function(e) {
+    slide.addEventListener('click', function (e) {
       e.stopPropagation();
-      
+
       const isPopped = this.classList.contains('is-popped');
       const isFlipped = this.classList.contains('is-flipped');
 
       if (!isPopped) {
-        // الضغطة 1: الكارت يبرز للأمام وتجميد التنقل
+        // الضغطة الأولى: الكارت يبرز للأمام
         document.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('is-popped', 'is-flipped'));
         this.classList.add('is-popped');
-        toggleSwiperControls(true); 
+        swiper.allowTouchMove = false; // إيقاف اللف أثناء البروز
       } else if (isPopped && !isFlipped) {
-        // الضغطة 2: ينقلب لظهر الكارت وهو بارز
+        // الضغطة الثانية: الكارت ينقلب لضهره
         this.classList.add('is-flipped');
       } else {
-        // الضغطة 3: العودة للوضع الأصلي وإعادة تفعيل التنقل
+        // الضغطة الثالثة: الكارت يرجع مكانه
         this.classList.remove('is-popped', 'is-flipped');
-        toggleSwiperControls(false); 
+        swiper.allowTouchMove = true; // إعادة تفعيل اللف
       }
-    }); // 👈 تم إغلاق القوس بشكل صحيح هنا
+    });
   });
 
-  // 2. الضغط في أي مكان برة الكارت لإلغاء البروز والقلب
-  document.addEventListener('click', () => {
+  // 3. الضغط برة الكارت لرجوعه لفضائه الطبيعي
+  document.addEventListener('click', function () {
     document.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('is-popped', 'is-flipped'));
-    toggleSwiperControls(false);
+    if (swiper) swiper.allowTouchMove = true;
   });
 
+  // 4. إعادة تحديث السوايبر عند تغيير الحجم
+  window.addEventListener('resize', () => {
+    if (swiper) swiper.update();
+  });
+});
   // 3. إعادة ضبط مقاسات Swiper عند تغير حجم الشاشة
   window.addEventListener('resize', () => {
     if (swiperInstance) swiperInstance.update();

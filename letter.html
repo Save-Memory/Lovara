@@ -35,7 +35,7 @@
       <div class="env-top-flap"></div>
       <div class="wax-seal">M</div>
       <div class="env-bottom-pocket"></div>
-      <p class="envelope-hint">Click Here to open</p>
+      <p class="envelope-hint">Click Here to open </p>
     </div>
 
     <!-- كارت الرسالة الأبيض -->
@@ -66,32 +66,11 @@
     const darkOverlay = document.getElementById("darkOverlay");
     const typewriterText = document.getElementById("typewriterText");
     const bgMusic = document.getElementById("bgMusic");
-    const backBtn = document.getElementById("backLink");
+    const backBtn = document.getElementById("backLink"); /* 📍 إمساك عنصر الزرار */
 
     const messageText = "Happy birthday to the most beautiful gift God has given me. I love your smile, your words, your playful spirit, and the way you look at me. Always stay radiant and happy, your smile makes my life more beautiful. I will always be by your side and proud of you.";
 
-    // 🎵 1. تشغيل الموسيقى واستكمالها من المكان المحدد
-    window.addEventListener("DOMContentLoaded", () => {
-      const savedTime = localStorage.getItem('audioTime');
-      if (savedTime && bgMusic) {
-        bgMusic.currentTime = parseFloat(savedTime);
-      }
-
-      if (bgMusic) {
-        bgMusic.play().catch(() => {
-          document.addEventListener('click', () => {
-            bgMusic.play();
-          }, { once: true });
-        });
-
-        // حفظ الوقت باستمرار
-        bgMusic.addEventListener('timeupdate', () => {
-          localStorage.setItem('audioTime', bgMusic.currentTime);
-        });
-      }
-    });
-
-    // 💌 2. حركة فتح الظرف وتشغيل تأثير Typewriter
+    /* عند الضغط على الظرف */
     envelope.addEventListener("click", function () {
       envelope.classList.add("fade-out");
       
@@ -101,17 +80,16 @@
         letter.classList.remove("hidden-letter");
         letter.classList.add("fade-in");
 
+        /* 📍 إظهار الزرار بشكل مباشر عند التعتيم */
         if (backBtn) {
           backBtn.classList.add("is-visible");
         }
 
-        // تفريغ النص أولاً ثم البدء بالتأثير
-        typewriterText.innerHTML = "";
         startTypewriter(messageText, 0);
       }, 500);
     });
 
-    // ✍️ 3. دالة كتابة النص حرف بحرف
+    /* إفكت كتابة النص حرفاً بحرف */
     function startTypewriter(text, i) {
       if (i < text.length) {
         typewriterText.innerHTML += text.charAt(i);
@@ -119,13 +97,31 @@
       }
     }
 
-    // 🛑 4. إيقاف الصوت وتصفير البيانات عند الضغط على Go back
+    /* تشغيل الموسيقى المتابعة من الصفحة السابقة */
+    window.addEventListener("DOMContentLoaded", () => {
+      const isPlaying = localStorage.getItem("musicPlaying");
+      const savedTime = parseFloat(localStorage.getItem("musicTime") || "0");
+
+      if (isPlaying === "true" && bgMusic) {
+        bgMusic.currentTime = savedTime;
+        bgMusic.play().catch(err => console.log("Audio play blocked:", err));
+      }
+    });
+
+    setInterval(() => {
+      if (bgMusic && !bgMusic.paused) {
+        localStorage.setItem("musicTime", bgMusic.currentTime);
+      }
+    }, 500);
+
+    /* دالة إيقاف الصوت وتصفير البيانات عند الضغط على Go back */
     function stopMusicAndGoHome() {
       if (bgMusic) {
         bgMusic.pause();
         bgMusic.currentTime = 0;
       }
-      localStorage.removeItem("audioTime");
+      localStorage.setItem("musicPlaying", "false");
+      localStorage.setItem("musicTime", "0");
     }
   </script>
 </body>

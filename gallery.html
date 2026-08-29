@@ -2,281 +2,87 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Memories Album</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Memories</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playfair+Display:ital,wght@0,500;1,400&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playfair+Display:ital,wght@0,500;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <link rel="preload" as="image" href="memory-1.gif">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<link rel="prefetch" href="gallery.html">
+<link rel="prefetch" href="letter.html">
+<link rel="preload" as="image" href="car-thumb.png">
+
+<link rel="preload" as="image" href="car.gif">
+<link rel="preload" as="image" href="car-thumb.png">
 </head>
 <body class="page-center">
 
-  <button id="musicToggle" class="music-btn" aria-label="Toggle Music">
-    <span id="musicIcon">🎵</span>
-  </button>
-
+ <!-- خلفية القلوب المتوازنة والعشوائية -->
   <div class="hearts-container">
+    <!-- 4 قلوب في الجانب الأيسر -->
     <div class="heart-item h-left-1"></div>
     <div class="heart-item h-left-2"></div>
     <div class="heart-item h-left-3"></div>
     <div class="heart-item h-left-4"></div>
 
+    <!-- 4 قلوب في الجانب الأيمن -->
     <div class="heart-item h-right-1"></div>
     <div class="heart-item h-right-2"></div>
     <div class="heart-item h-right-3"></div>
     <div class="heart-item h-right-4"></div>
   </div>
-
-  <div class="section-title">
-    <h2><i>.I love every memory in every photo with you</i></h2>
-    <p>Drag the image or use the arrows, and tap on the image</p>
+  <!-- صورة الدبدوب النابضة بدلاً من اللوجو -->
+  <div class="bear-logo-wrapper motion-item delay-1">
+    <img src="bear.png" alt="Cute Teddy Bear" class="bear-logo-img">
   </div>
 
-  <div class="pro-gallery-container">
-    <div class="swiper mySwiper">
-      <div class="swiper-wrapper">
-        
-        <div class="swiper-slide">
-          <div class="card-inner">
-            <div class="card-front">
-              <div class="burgundy-frame">
-                <img class="card-image" src="Memory1.png" alt="Static Image" fetchpriority="high" loading="eager" decoding="async">
-                <div class="card-overlay">
-                  <span class="card-badge">🤎</span>
-                  <p class="card-caption">5/2/2026</p>
-                </div>
-              </div>
-            </div>
-            <div class="card-back">
-              <p class="back-text">Somehow, even the most random moments with you become my favorite memories, you are literally my favorite person and my favorite place</p>
-            </div>
-          </div>
-        </div>
+  <div class="subtitle-tag motion-item delay-2">Amazing Memories </div>
 
-        <div class="swiper-slide">
-          <div class="card-inner">
-            <div class="card-front">
-              <div class="burgundy-frame">
-                <img class="card-image" src="car-thumb.png" data-gif="car.gif" fetchpriority="high" decoding="async" alt="gLovara">
-                <div class="card-overlay">
-                  <span class="card-badge">🤎</span>
-                  <p class="card-caption">20/6/2026</p>
-                </div>
-              </div>
-            </div>
-            <div class="card-back">
-              <p class="back-text">Your voice and your laughter, that random pictures, the stupid jokes, and our late-night conversations—every moment spent with you is a memory deeply etched in my heart</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="swiper-slide">
-          <div class="card-inner">
-            <div class="card-front">
-              <div class="burgundy-frame">
-                <img class="card-image" src="memory2.png" alt="Static Image" fetchpriority="high" loading="eager" decoding="async">
-                <div class="card-overlay">
-                  <span class="card-badge">🤎</span>
-                  <p class="card-caption">26/3/2026</p>
-                </div>
-              </div>
-            </div>
-            <div class="card-back">
-              <p class="back-text">Perhaps this is what I like most about us; it isn't really about where we are or what we're doing,it’s all about simply being together</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="swiper-slide">
-          <div class="card-inner">
-            <div class="card-front">
-              <div class="burgundy-frame">
-                <img class="card-image" src="ride-thumb.png" data-gif="ride.gif" fetchpriority="high" decoding="async" alt="gLovara">
-                <div class="card-overlay">
-                  <span class="card-badge">🤎</span>
-                  <p class="card-caption">27/4/2026</p>
-                </div>
-              </div>
-            </div>
-            <div class="card-back">
-              <p class="back-text">Just two idiots making memories together, we truly lived the best kind of madness, and I’m ready to do it all over again with you</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="swiper-slide">
-          <div class="card-inner">
-            <div class="card-front">
-              <div class="burgundy-frame">
-                <img class="card-image" src="memory4.png" alt="Static Image" fetchpriority="high" loading="eager" decoding="async">
-                <div class="card-overlay">
-                  <span class="card-badge">🤎</span>
-                  <p class="card-caption">31/7/2026</p>
-                </div>
-              </div>
-            </div>
-            <div class="card-back">
-              <p class="back-text">We truly created unforgettable memories, I can't believe we actually lived through all these moments</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="swiper-slide">
-          <div class="card-inner">
-            <div class="card-front">
-              <div class="burgundy-frame">
-                <img class="card-image" src="cinema-thumb.png" data-gif="cinema.gif" fetchpriority="high" decoding="async" alt="gLovara">
-                <div class="card-overlay">
-                  <span class="card-badge">MJ</span>
-                  <p class="card-caption">31/7/2026</p>
-                </div>
-              </div>
-            </div>
-            <div class="card-back">
-              <p class="back-text">Every Spider-Man needs his MJ ,and in every universe, I'd still choose you</p>
-              <p class="back-text">I really love you Maloka</p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="gallery-controls">
-      <button class="nav-arrow prev-arrow" id="prevBtn">❮</button>
-      <button class="nav-arrow next-arrow" id="nextBtn">❯</button>
-    </div>
+  <!-- العنوان بدون أي علامات ترقيم زائدة -->
+  <div class="header motion-item delay-3">
+    <h1>
+      <span>Happy Birthday my Amazing girl</span>
+      <span class="name">Maloka</span>
+    </h1>
   </div>
 
-  <a href="letter.html" class="explore-btn">
-    <span><i>More surprises for you</i></span>
-  </a>
+  <!-- الإطار البيضاوي بنفس لون الخلفية وبداخله قلوب -->
+  <div class="message-frame-box oval-frame side-layout motion-item delay-4">
+    <div class="frame-heart heart-top-left"></div>
+    <div class="frame-heart heart-bottom-right"></div>
 
+    <p class="frame-text english-text" dir="ltr">
+      I'm excited to celebrate our memories together, it's a small way to express how much I love you. Are you ready to begin?
+    </p>
+    
+    <a href="gallery.html" class="of-course-btn" id="startBtn">
+      <span>Of course</span>
+    </a>
+  </div>
+
+  <!-- عنصر الصوت -->
   <audio id="bgMusic" src="music.mp3" preload="auto" loop></audio>
-
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<!-- مكتبة الجليتر والزينة -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <script src="script.js"></script>
   <script src="script.js"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const bgMusic = document.getElementById("bgMusic");
-      const musicToggle = document.getElementById("musicToggle");
-      const musicIcon = document.getElementById("musicIcon");
+    const startBtn = document.getElementById("startBtn");
 
-      // 🎵 1. إدارة تشغيل الموسيقى والزرار الشفاف
-      function updateMusicUI() {
-        if (!bgMusic || !musicIcon) return;
-        if (bgMusic.paused) {
-          musicIcon.textContent = "🔇";
-        } else {
-          musicIcon.textContent = "🎵";
-        }
-      }
+    startBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      this.classList.add("pressed");
 
-      const savedTime = localStorage.getItem("audioTime");
-      const isMuted = localStorage.getItem("audioMuted") === "true";
+      // تجهيز تشغيل الصوت للصفحات التالية
+      localStorage.setItem("musicPlaying", "true");
+      localStorage.setItem("musicTime", "0");
 
-      if (savedTime && bgMusic) {
-        bgMusic.currentTime = parseFloat(savedTime);
-      }
-
-      if (!isMuted && bgMusic) {
-        bgMusic.play().then(updateMusicUI).catch(() => {
-          const forcePlay = () => {
-            if (!localStorage.getItem("audioMuted") || localStorage.getItem("audioMuted") === "false") {
-              bgMusic.play().then(updateMusicUI).catch(() => {});
-            }
-            window.removeEventListener("touchstart", forcePlay);
-            window.removeEventListener("click", forcePlay);
-          };
-          window.addEventListener("touchstart", forcePlay, { passive: true });
-          window.addEventListener("click", forcePlay);
-        });
-      } else {
-        updateMusicUI();
-      }
-
-      // تشغيل/إيقاف بالزرار الشفاف
-      if (musicToggle) {
-        musicToggle.addEventListener("click", (e) => {
-          e.stopPropagation();
-          if (!bgMusic) return;
-
-          if (bgMusic.paused) {
-            bgMusic.play().then(() => {
-              localStorage.setItem("audioMuted", "false");
-              updateMusicUI();
-            });
-          } else {
-            bgMusic.pause();
-            localStorage.setItem("audioMuted", "true");
-            updateMusicUI();
-          }
-        });
-      }
-
-      // حفظ التوقيت باستمرار
-      if (bgMusic) {
-        bgMusic.addEventListener("timeupdate", () => {
-          localStorage.setItem("audioTime", bgMusic.currentTime);
-        });
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  // 1. إعادة إنشاء Swiper بشكل كامل باللف والبروز الأصلي
-  const swiper = new Swiper('.mySwiper', {
-    effect: 'cards',
-    grabCursor: true,
-    initialSlide: 0,
-    nested: true, // يمنع تحريك الشاشة وزر الصوت أثناء سحب الصور
-    touchReleaseOnEdges: true,
-    cardsEffect: {
-      perSlideRotate: 2,
-      perSlideOffset: 8,
-      slideShadows: false,
-    },
-  });
-
-  // 2. التحكم في البروز (is-popped) والقلب (is-flipped)
-  document.querySelectorAll('.swiper-slide').forEach(slide => {
-    slide.addEventListener('click', function (e) {
-      e.stopPropagation();
-
-      const isPopped = this.classList.contains('is-popped');
-      const isFlipped = this.classList.contains('is-flipped');
-
-      if (!isPopped) {
-        // الضغطة الأولى: الكارت يبرز للأمام
-        document.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('is-popped', 'is-flipped'));
-        this.classList.add('is-popped');
-        swiper.allowTouchMove = false; // إيقاف اللف أثناء البروز
-      } else if (isPopped && !isFlipped) {
-        // الضغطة الثانية: الكارت ينقلب لضهره
-        this.classList.add('is-flipped');
-      } else {
-        // الضغطة الثالثة: الكارت يرجع مكانه
-        this.classList.remove('is-popped', 'is-flipped');
-        swiper.allowTouchMove = true; // إعادة تفعيل اللف
-      }
+      setTimeout(() => {
+        window.location.href = "gallery.html";
+      }, 200);
     });
-  });
-
-  // 3. الضغط برة الكارت لرجوعه لفضائه الطبيعي
-  document.addEventListener('click', function () {
-    document.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('is-popped', 'is-flipped'));
-    if (swiper) swiper.allowTouchMove = true;
-  });
-
-  // 4. إعادة تحديث السوايبر عند تغيير الحجم
-  window.addEventListener('resize', () => {
-    if (swiper) swiper.update();
-  });
-});
-  // 3. إعادة ضبط مقاسات Swiper عند تغير حجم الشاشة
-  window.addEventListener('resize', () => {
-    if (swiperInstance) swiperInstance.update();
-  });
-});
-</script>
+  </script>
 </body>
 </html>

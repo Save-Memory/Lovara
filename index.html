@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Memories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playfair+Display:ital,wght@0,500;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<link rel="prefetch" href="gallery.html">
+<link rel="prefetch" href="letter.html">
+<link rel="preload" as="image" href="car-thumb.png">
+
+<link rel="preload" as="image" href="car.gif">
+<link rel="preload" as="image" href="car-thumb.png">
+</head>
+<body class="page-center">
+
+ <!-- خلفية القلوب المتوازنة والعشوائية -->
+  <div class="hearts-container">
+    <!-- 4 قلوب في الجانب الأيسر -->
+    <div class="heart-item h-left-1"></div>
+    <div class="heart-item h-left-2"></div>
+    <div class="heart-item h-left-3"></div>
+    <div class="heart-item h-left-4"></div>
+
+    <!-- 4 قلوب في الجانب الأيمن -->
+    <div class="heart-item h-right-1"></div>
+    <div class="heart-item h-right-2"></div>
+    <div class="heart-item h-right-3"></div>
+    <div class="heart-item h-right-4"></div>
+  </div>
+  <!-- صورة الدبدوب النابضة بدلاً من اللوجو -->
+  <div class="bear-logo-wrapper motion-item delay-1">
+    <img src="bear.png" alt="Cute Teddy Bear" class="bear-logo-img">
+  </div>
+
+  <div class="subtitle-tag motion-item delay-2">Amazing Memories </div>
+
+  <!-- العنوان بدون أي علامات ترقيم زائدة -->
+  <div class="header motion-item delay-3">
+    <h1>
+      <span>Happy Birthday my Amazing girl</span>
+      <span class="name">Maloka</span>
+    </h1>
+  </div>
+
+  <!-- الإطار البيضاوي بنفس لون الخلفية وبداخله قلوب -->
+  <div class="message-frame-box oval-frame side-layout motion-item delay-4">
+    <div class="frame-heart heart-top-left"></div>
+    <div class="frame-heart heart-bottom-right"></div>
+
+    <p class="frame-text english-text" dir="ltr">
+      I'm excited to celebrate our memories together, it's a small way to express how much I love you. Are you ready to begin?
+    </p>
+    
+    <a href="gallery.html" class="of-course-btn" id="startBtn">
+      <span>Of course</span>
+    </a>
+  </div>
+
+  <!-- عنصر الصوت -->
+  <audio id="bgMusic" src="music.mp3" preload="auto" loop></audio>
+<!-- مكتبة الجليتر والزينة -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <script src="script.js"></script>
+  <script src="script.js"></script>
+  <script>
+    const startBtn = document.getElementById("startBtn");
+
+    startBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      this.classList.add("pressed");
+
+      // تجهيز تشغيل الصوت للصفحات التالية
+      localStorage.setItem("musicPlaying", "true");
+      localStorage.setItem("musicTime", "0");
+
+      setTimeout(() => {
+        window.location.href = "gallery.html";
+      }, 200);
+    });
+  </script>
+  
+  
+</body>
+</html>

@@ -56,17 +56,40 @@
   <a href="index.html" class="back-link" id="backLink" onclick="stopMusicAndGoHome()">
     <span>↩</span> Go back
   </a>
+<!-- عنصر الموسيقى -->
+<audio id="bgMusic" src="music.mp3" loop></audio>
 
-  <!-- عنصر الموسيقى -->
-  <audio id="bgMusic" src="music.mp3" loop></audio>
+<script>
+  const envelope = document.getElementById("sealedEnvelope");
+  const letter = document.getElementById("fullLetter");
+  const darkOverlay = document.getElementById("darkOverlay");
+  const typewriterText = document.getElementById("typewriterText");
+  const bgMusic = document.getElementById("bgMusic");
+  const backBtn = document.getElementById("backLink");
 
-  <script>
-    const envelope = document.getElementById("sealedEnvelope");
-    const letter = document.getElementById("fullLetter");
-    const darkOverlay = document.getElementById("darkOverlay");
-    const typewriterText = document.getElementById("typewriterText");
-    const bgMusic = document.getElementById("bgMusic");
-    const backBtn = document.getElementById("backLink"); /* 📍 إمساك عنصر الزرار */
+  const messageText = "Happy birthday to the most beautiful gift God has given me. I love your smile, your words, your playful spirit, and the way you look at me. Always stay radiant and happy, your smile makes my life more beautiful. I will always be by your side and proud of you.";
+
+  // 🎵 استرجاع الثواني التي وقفت عندها الأغنية وتكملتها
+  const savedTime = localStorage.getItem('audioTime');
+  if (savedTime) {
+    bgMusic.currentTime = parseFloat(savedTime);
+  }
+
+  // تشغيل الموسيقى فوراً أو مع أول لمسة للشاشة
+  const playPromise = bgMusic.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(() => {
+      document.addEventListener('click', () => {
+        bgMusic.play();
+      }, { once: true });
+    });
+  }
+
+  // حفظ وقت الأغنية باستمرار
+  bgMusic.addEventListener('timeupdate', () => {
+    localStorage.setItem('audioTime', bgMusic.currentTime);
+  });
+</script>
 
     const messageText = "Happy birthday to the most beautiful gift God has given me. I love your smile, your words, your playful spirit, and the way you look at me. Always stay radiant and happy, your smile makes my life more beautiful. I will always be by your side and proud of you.";
 

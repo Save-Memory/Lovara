@@ -2,8 +2,7 @@
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Your Letter</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,10 +10,12 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="page-center">
-<!-- زر التحكم في الموسيقى -->
-<button id="musicToggle" class="music-btn" aria-label="Toggle Music">
-  <span id="musicIcon">🎵</span>
-</button>
+
+  <!-- زر التحكم في الموسيقى (شفاف) -->
+  <button id="musicToggle" class="music-btn" aria-label="Toggle Music">
+    <span id="musicIcon">🎵</span>
+  </button>
+
   <!-- طبقة التعتيم للخلفية -->
   <div class="dark-overlay" id="darkOverlay"></div>
 
@@ -39,7 +40,7 @@
       <div class="env-top-flap"></div>
       <div class="wax-seal">M</div>
       <div class="env-bottom-pocket"></div>
-      <p class="envelope-hint">Click Here to open </p>
+      <p class="envelope-hint">Click Here to open</p>
     </div>
 
     <!-- كارت الرسالة الأبيض -->
@@ -62,20 +63,75 @@
   </a>
 
   <!-- عنصر الموسيقى -->
-  <audio id="bgmusic" src="music.mp3" preload="auto" loop></audio>
+  <audio id="bgMusic" src="music.mp3" preload="auto" loop></audio>
 
   <script>
     const envelope = document.getElementById("sealedEnvelope");
     const letter = document.getElementById("fullLetter");
     const darkOverlay = document.getElementById("darkOverlay");
     const typewriterText = document.getElementById("typewriterText");
-    const bgMusic = document.getElementById("bgmusic");
-    const backBtn = document.getElementById("backLink"); /* 📍 إمساك عنصر الزرار */
+    const bgMusic = document.getElementById("bgMusic");
+    const backBtn = document.getElementById("backLink");
+    const musicToggle = document.getElementById("musicToggle");
+    const musicIcon = document.getElementById("musicIcon");
 
     const messageText = "Happy birthday to the most beautiful gift God has given me. I love your smile, your words, your playful spirit, and the way you look at me. Always stay radiant and happy, your smile makes my life more beautiful. I will always be by your side and proud of you.";
 
-    /* عند الضغط على الظرف */
+    // تحديث شكل الإيموجي (🎵 أو 🔇)
+    function updateMusicUI() {
+      if (!bgMusic || !musicIcon) return;
+      if (bgMusic.paused) {
+        musicIcon.textContent = "🔇";
+      } else {
+        musicIcon.textContent = "🎵";
+      }
+    }
+
+    // استرجاع حالة وقت الموسيقى والـ Mute
+    function initAudio() {
+      const savedTime = localStorage.getItem("audioTime");
+      const isMuted = localStorage.getItem("audioMuted") === "true";
+
+      if (savedTime && bgMusic) {
+        bgMusic.currentTime = parseFloat(savedTime);
+      }
+
+      if (!isMuted && bgMusic) {
+        bgMusic.play().then(updateMusicUI).catch(() => {
+          updateMusicUI();
+        });
+      } else {
+        updateMusicUI();
+      }
+    }
+
+    // زر التبديل (Play / Pause)
+    if (musicToggle) {
+      musicToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (!bgMusic) return;
+
+        if (bgMusic.paused) {
+          bgMusic.play().then(() => {
+            localStorage.setItem("audioMuted", "false");
+            updateMusicUI();
+          });
+        } else {
+          bgMusic.pause();
+          localStorage.setItem("audioMuted", "true");
+          updateMusicUI();
+        }
+      });
+    }
+
+    // عند الضغط على الظرف
     envelope.addEventListener("click", function () {
+      // محاولة تشغيل الصوت فوراً لفك حظر الآيفون إذا لم يكن مكتوماً
+      const isMuted = localStorage.getItem("audioMuted") === "true";
+      if (!isMuted && bgMusic && bgMusic.paused) {
+        bgMusic.play().then(updateMusicUI).catch(() => {});
+      }
+
       envelope.classList.add("fade-out");
       
       setTimeout(() => {
@@ -84,7 +140,6 @@
         letter.classList.remove("hidden-letter");
         letter.classList.add("fade-in");
 
-        /* 📍 إظهار الزرار بشكل مباشر عند التعتيم */
         if (backBtn) {
           backBtn.classList.add("is-visible");
         }
@@ -93,7 +148,7 @@
       }, 500);
     });
 
-    /* إفكت كتابة النص حرفاً بحرف */
+    // إفكت كتابة النص حرفاً بحرف
     function startTypewriter(text, i) {
       if (i < text.length) {
         typewriterText.innerHTML += text.charAt(i);
@@ -101,31 +156,24 @@
       }
     }
 
-    /* تشغيل الموسيقى المتابعة من الصفحة السابقة */
-    window.addEventListener("DOMContentLoaded", () => {
-      const isPlaying = localStorage.getItem("musicPlaying");
-      const savedTime = parseFloat(localStorage.getItem("musicTime") || "0");
+    // حفظ التوقيت باستمرار
+    if (bgMusic) {
+      bgMusic.addEventListener("timeupdate", () => {
+        localStorage.setItem("audioTime", bgMusic.currentTime);
+      });
+    }
 
-      if (isPlaying === "true" && bgmusic) {
-        bgmusic.currentTime = savedTime;
-        bgmusic.play().catch(err => console.log("Audio play blocked:", err));
-      }
-    });
+    // تشغيل عند فتح الصفحة
+    window.addEventListener("DOMContentLoaded", initAudio);
 
-    setInterval(() => {
-      if (bgmusic && !bgmusic.paused) {
-        localStorage.setItem("musicTime", bgmusic.currentTime);
-      }
-    }, 500);
-
-    /* دالة إيقاف الصوت وتصفير البيانات عند الضغط على Go back */
+    // دالة إيقاف الصوت وتصفير البيانات عند العودة للرئيسية
     function stopMusicAndGoHome() {
-      if (bgmusic) {
-        bgmusic.pause();
-        bgmusic.currentTime = 0;
+      if (bgMusic) {
+        bgMusic.pause();
+        bgMusic.currentTime = 0;
       }
-      localStorage.setItem("musicPlaying", "false");
-      localStorage.setItem("musicTime", "0");
+      localStorage.setItem("audioTime", "0");
+      localStorage.setItem("audioMuted", "false");
     }
   </script>
 </body>

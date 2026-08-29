@@ -57,8 +57,8 @@
     <span>↩</span> Go back
   </a>
 
-  <!-- عنصر الموسيقى -->
-  <audio id="bgMusic" src="music.mp3" loop></audio>
+  <!-- ⚡ عنصر الموسيقى مع إضافة preload="auto" لتشغيله فورا -->
+  <audio id="bgMusic" src="music.mp3" preload="auto" loop></audio>
 
   <script>
     const envelope = document.getElementById("sealedEnvelope");
@@ -66,12 +66,52 @@
     const darkOverlay = document.getElementById("darkOverlay");
     const typewriterText = document.getElementById("typewriterText");
     const bgMusic = document.getElementById("bgMusic");
-    const backBtn = document.getElementById("backLink"); /* 📍 إمساك عنصر الزرار */
+    const backBtn = document.getElementById("backLink");
 
     const messageText = "Happy birthday to the most beautiful gift God has given me. I love your smile, your words, your playful spirit, and the way you look at me. Always stay radiant and happy, your smile makes my life more beautiful. I will always be by your side and proud of you.";
 
+    /* 🎵 تشغيل الموسيقى فوراً وبأسرع سرعة ممكّنة */
+    function playAudioInstantly() {
+      if (!bgMusic) return;
+
+      const savedTime = localStorage.getItem("audioTime") || localStorage.getItem("musicTime");
+      if (savedTime) {
+        bgMusic.currentTime = parseFloat(savedTime);
+      }
+
+      // إجبار التشغيل فوراً
+      const playPromise = bgMusic.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // لو المتصفح حظر التشغيل التلقائي، تشتغيل فوراً مع أول لمسة للظرف أو الشاشة
+          const enableAudioOnInteraction = () => {
+            bgMusic.play();
+            document.removeEventListener('click', enableAudioOnInteraction);
+            document.removeEventListener('touchstart', enableAudioOnInteraction);
+          };
+          document.addEventListener('click', enableAudioOnInteraction);
+          document.addEventListener('touchstart', enableAudioOnInteraction);
+        });
+      }
+    }
+
+    // تشغيل الصوت فور تحميل الـ DOM دون انتظار الملفات الأخرى
+    document.addEventListener("DOMContentLoaded", playAudioInstantly);
+
+    /* حفظ الوقت باستمرار وبدون تقطيع */
+    bgMusic.addEventListener("timeupdate", () => {
+      localStorage.setItem("audioTime", bgMusic.currentTime);
+      localStorage.setItem("musicTime", bgMusic.currentTime);
+      localStorage.setItem("musicPlaying", "true");
+    });
+
     /* عند الضغط على الظرف */
     envelope.addEventListener("click", function () {
+      // ضمان تشغيل الصوت عند الضغط على الظرف في حال كان مَحجوباً
+      if (bgMusic.paused) {
+        bgMusic.play().catch(() => {});
+      }
+
       envelope.classList.add("fade-out");
       
       setTimeout(() => {
@@ -80,11 +120,11 @@
         letter.classList.remove("hidden-letter");
         letter.classList.add("fade-in");
 
-        /* 📍 إظهار الزرار بشكل مباشر عند التعتيم */
         if (backBtn) {
           backBtn.classList.add("is-visible");
         }
 
+        typewriterText.innerHTML = "";
         startTypewriter(messageText, 0);
       }, 500);
     });
@@ -97,23 +137,6 @@
       }
     }
 
-    /* تشغيل الموسيقى المتابعة من الصفحة السابقة */
-    window.addEventListener("DOMContentLoaded", () => {
-      const isPlaying = localStorage.getItem("musicPlaying");
-      const savedTime = parseFloat(localStorage.getItem("musicTime") || "0");
-
-      if (isPlaying === "true" && bgMusic) {
-        bgMusic.currentTime = savedTime;
-        bgMusic.play().catch(err => console.log("Audio play blocked:", err));
-      }
-    });
-
-    setInterval(() => {
-      if (bgMusic && !bgMusic.paused) {
-        localStorage.setItem("musicTime", bgMusic.currentTime);
-      }
-    }, 500);
-
     /* دالة إيقاف الصوت وتصفير البيانات عند الضغط على Go back */
     function stopMusicAndGoHome() {
       if (bgMusic) {
@@ -122,6 +145,7 @@
       }
       localStorage.setItem("musicPlaying", "false");
       localStorage.setItem("musicTime", "0");
+      localStorage.setItem("audioTime", "0");
     }
   </script>
 </body>

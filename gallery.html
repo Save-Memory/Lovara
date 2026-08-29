@@ -1,17 +1,17 @@
+
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Memories Album</title>
+  <title>Lovara - Gallery</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playfair+Display:ital,wght@0,500;1,400&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,400&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <link rel="stylesheet" href="style.css">
-  <link rel="preload" as="image" href="memory-1.gif">
 </head>
-<body class="page-center">
+<body class="page-center" id="app-body">
 
   <!-- خلفية القلوب الثابتة والمتحركة -->
 <div class="hearts-container">
@@ -181,49 +181,65 @@ Drag the image or use the arrows, and tap on the image</p>
       </div>
     </div>
 
-    <!-- أسهم التنقل -->
+   <!-- أسهم التنقل واسلايدر المعرض -->
     <div class="gallery-controls">
       <button class="nav-arrow prev-arrow" id="prevBtn">❮</button>
       <button class="nav-arrow next-arrow" id="nextBtn">❯</button>
     </div>
 
+    <!-- زرار الانتقال لصفحة الرسالة -->
+    <a href="letter.html" class="explore-btn" id="goToLetterBtn">
+      <span><i>More surprises for you</i></span>
+    </a>
   </div>
 
-  <a href="letter.html" class="explore-btn">
-    <span><i>More surprises for you</i></span>
-    
-  </a>
+  <!-- عنصر الموسيقى الرئيسي (الذي لن ينقطع) -->
+  <audio id="bgMusic" src="music.mp3" preload="auto" loop></audio>
 
-<audio id="bgMusic" src="music.mp3" preload="auto" loop></audio>
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script src="script.js"></script>
 
   <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    // ==========================================
-    // 🎵 1. كود استكمال وحفظ الموسيقى
-    // ==========================================
-    const bgMusic = document.getElementById("bgMusic");
+    document.addEventListener("DOMContentLoaded", function () {
+      const bgMusic = document.getElementById("bgMusic");
 
-    if (bgMusic) {
-      // استرجاع الوقت من الصفحة السابقة لو موجود
-      const savedTime = localStorage.getItem('audioTime');
-      if (savedTime) {
-        bgMusic.currentTime = parseFloat(savedTime);
+      // تشغيل الموسيقى
+      if (bgMusic) {
+        bgMusic.play().catch(() => {
+          document.addEventListener('click', () => { bgMusic.play(); }, { once: true });
+        });
       }
 
-      // محاولة التشغيل أو الانتظار لأول لمسة
-      bgMusic.play().catch(() => {
-        document.addEventListener('click', () => {
-          bgMusic.play();
-        }, { once: true });
-      });
+      // ⚡ الانتقال الذكي لصفحة letter.html بدون إيقاف الموسيقى
+      const letterLink = document.getElementById("goToLetterBtn");
+      if (letterLink) {
+        letterLink.addEventListener("click", function (e) {
+          e.preventDefault(); // منع الـ Refresh الطبيعي
 
-      // حفظ ثواني الموسيقى باستمرار عشان صفحة letter.html تستكمل منها
-      bgMusic.addEventListener('timeupdate', () => {
-        localStorage.setItem('audioTime', bgMusic.currentTime);
-      });
-    }
+          fetch("letter.html")
+            .then(response => response.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const doc = parser.parseFromString(html, "text/html");
+              
+              // استبدال محتوى الشاشة فقط ومراعاة تشغيل السكريبت الخاص بالرسالة
+              const newContent = doc.querySelector("#page-content") || doc.body;
+              document.getElementById("page-content").innerHTML = newContent.innerHTML;
+
+              // تحديث الـ URL في المتصفح لـ letter.html
+              window.history.pushState({}, "", "letter.html");
+
+              // تشغيل السكريبت الخاص بصفحة الجواب تلقائياً
+              const scripts = doc.querySelectorAll("script");
+              scripts.forEach(oldScript => {
+                const newScript = document.createElement("script");
+                newScript.textContent = oldScript.textContent;
+                document.body.appendChild(newScript);
+              });
+            });
+        });
+      }
+    });
 
     // ==========================================
     // 🃏 2. كود السلايدر وتحريك الكروت (Swiper)

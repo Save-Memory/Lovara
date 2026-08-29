@@ -221,58 +221,59 @@
         bgMusic.addEventListener("timeupdate", () => {
           localStorage.setItem("audioTime", bgMusic.currentTime);
         });
-      }
-
 document.addEventListener("DOMContentLoaded", function () {
-    const swiperInstance = document.querySelector('.swiper')?.swiper;
+  const swiperInstance = document.querySelector('.swiper')?.swiper;
 
-    function toggleSwiperControls(disable) {
-      if (!swiperInstance) return;
-      if (disable) {
-        swiperInstance.allowTouchMove = false; 
-        if (swiperInstance.navigation) {
-          swiperInstance.navigation.disable(); 
-        }
-      } else {
-        swiperInstance.allowTouchMove = true; 
-        if (swiperInstance.navigation) {
-          swiperInstance.navigation.enable(); 
-        }
+  function toggleSwiperControls(disable) {
+    if (!swiperInstance) return;
+    if (disable) {
+      swiperInstance.allowTouchMove = false; 
+      if (swiperInstance.navigation) {
+        swiperInstance.navigation.disable(); 
+      }
+    } else {
+      swiperInstance.allowTouchMove = true; 
+      if (swiperInstance.navigation) {
+        swiperInstance.navigation.enable(); 
       }
     }
+  }
 
-    document.querySelectorAll('.swiper-slide').forEach(slide => {
-      slide.addEventListener('click', function(e) {
-        e.stopPropagation();
-        
-        const isPopped = this.classList.contains('is-popped');
-        const isFlipped = this.classList.contains('is-flipped');
+  // 1. الضغط على الكروت (بروز ثم قلب ثم إرجاع)
+  document.querySelectorAll('.swiper-slide').forEach(slide => {
+    slide.addEventListener('click', function(e) {
+      e.stopPropagation();
+      
+      const isPopped = this.classList.contains('is-popped');
+      const isFlipped = this.classList.contains('is-flipped');
 
-        if (!isPopped) {
-          // الضغطة 1: الكارت يبرز للأمام وتجميد التنقل
-          document.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('is-popped', 'is-flipped'));
-          this.classList.add('is-popped');
-          toggleSwiperControls(true); 
-        } else if (isPopped && !isFlipped) {
-          // الضغطة 2: ينقلب لظهر الكارت فقط وهو بارز
-          this.classList.add('is-flipped');
-        } else {
-          // الضغطة 3: العودة للوضع الأصلي وإعادة تفعيل التنقل
-          this.classList.remove('is-popped', 'is-flipped');
-          toggleSwiperControls(false); 
-        }
-     
-    document.addEventListener('click', () => {
-      document.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('is-popped', 'is-flipped'));
-      toggleSwiperControls(false);
-    });
+      if (!isPopped) {
+        // الضغطة 1: الكارت يبرز للأمام وتجميد التنقل
+        document.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('is-popped', 'is-flipped'));
+        this.classList.add('is-popped');
+        toggleSwiperControls(true); 
+      } else if (isPopped && !isFlipped) {
+        // الضغطة 2: ينقلب لظهر الكارت وهو بارز
+        this.classList.add('is-flipped');
+      } else {
+        // الضغطة 3: العودة للوضع الأصلي وإعادة تفعيل التنقل
+        this.classList.remove('is-popped', 'is-flipped');
+        toggleSwiperControls(false); 
+      }
+    }); // 👈 تم إغلاق القوس بشكل صحيح هنا
   });
 
-      // إعادة ضبط مقاسات Swiper عند تغير العرض في الآيفون
-      window.addEventListener('resize', () => {
-        if (swiperInstance) swiperInstance.update();
-      });
-    });
-  </script>
+  // 2. الضغط في أي مكان برة الكارت لإلغاء البروز والقلب
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('is-popped', 'is-flipped'));
+    toggleSwiperControls(false);
+  });
+
+  // 3. إعادة ضبط مقاسات Swiper عند تغير حجم الشاشة
+  window.addEventListener('resize', () => {
+    if (swiperInstance) swiperInstance.update();
+  });
+});
+</script>
 </body>
 </html>

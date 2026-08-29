@@ -1452,27 +1452,32 @@ html, body {
     font-size: 1.1rem !important;
   }
 }
-/* 🔒 تثبيت شاشة المعرض ومنع الاهتزاز وقت الـ Scroll */
+/* 📍 1. تثبيت زرار الصوت في أعلى الشاشة بشكل مستقل تماماً */
+.music-btn, #musicToggle {
+  position: fixed !important; /* تثبيت في الشاشة مش الصفحة */
+  top: 20px !important;
+  left: 20px !important;
+  z-index: 9999 !important; /* يفضل طافي فوق كل العناصر */
+  transform: none !important; /* منع أي حركة تأتي من العناصر المجاورة */
+}
+
+/* 🔒 2. منع الصفحة والكروت من الاهتزاز أو سحب باقي العناصر */
 html, body {
-  overflow-x: hidden !important; /* منع أي تحرك أوفقي للشاشة */
-  touch-action: pan-y; /* تخصيص اللمس للـ Scroll الرأسي فقط */
-}
-
-/* تثبيت الحاوية الرئيسية للمعرض */
-.pro-gallery-container {
-  touch-action: pan-y;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden !important;
   position: relative;
-  z-index: 10;
 }
 
-/* منع الكروت نفسها من الخروج أو الاهتزاز أثناء السحب */
+.pro-gallery-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto;
+}
+
 .swiper {
-  touch-action: pan-y;
-  overflow: hidden !important; /* قاطع أي أجزاء تخرج عن كادر المعرض */
-}
-
-.swiper-slide {
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-touch-callout: none;
+  overflow: hidden !important;
+  touch-action: pan-y; /* يمنع التضارب بين السحب الأفقي والرأسي */
 }

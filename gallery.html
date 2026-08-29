@@ -199,6 +199,33 @@ Drag the image or use the arrows, and tap on the image</p>
   <script src="script.js"></script>
   <script>
   document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function () {
+      // 🎵 1. تشغيل وتأمين الصوت فوراً
+      const bgMusic = document.getElementById("bgMusic");
+
+      const savedTime = localStorage.getItem("audioTime");
+      if (savedTime && bgMusic) {
+        bgMusic.currentTime = parseFloat(savedTime);
+      }
+
+      function startAudioFast() {
+        if (bgMusic && bgMusic.paused) {
+          bgMusic.play().catch(() => {});
+        }
+      }
+
+      startAudioFast();
+
+      // لتخطي حظر المتصفح فور لمس الشاشة
+      document.addEventListener("touchstart", startAudioFast, { once: true });
+      document.addEventListener("click", startAudioFast, { once: true });
+
+      // حفظ الوقت باستمرار
+      if (bgMusic) {
+        bgMusic.addEventListener("timeupdate", () => {
+          localStorage.setItem("audioTime", bgMusic.currentTime);
+        });
+      }
     const swiperInstance = document.querySelector('.swiper')?.swiper;
 
     function toggleSwiperControls(disable) {

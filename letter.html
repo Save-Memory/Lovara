@@ -58,32 +58,16 @@
   </a>
 
   <!-- عنصر الموسيقى -->
-  <audio id="bgmusic" src="music.mp3"preload="auto" loop></audio>
+  <audio id="bgMusic" src="music.mp3" loop></audio>
 
   <script>
     const envelope = document.getElementById("sealedEnvelope");
     const letter = document.getElementById("fullLetter");
     const darkOverlay = document.getElementById("darkOverlay");
     const typewriterText = document.getElementById("typewriterText");
-    const bgMusic = document.getElementById("bgmusic");
+    const bgMusic = document.getElementById("bgMusic");
     const backBtn = document.getElementById("backLink"); /* 📍 إمساك عنصر الزرار */
-// ⚡ 1. تشغيل الموسيقى في أسرع وقت ممكن
-    const savedTime = localStorage.getItem("audioTime");
-    if (savedTime && bgMusic) {
-      bgMusic.currentTime = parseFloat(savedTime);
-    }
 
-    if (bgMusic) {
-      bgMusic.play().catch(() => {
-        // لو المتصفح وقف الصوت التلقائي، تشتغل فوراً أول ما يلمس الشاشة أو الظرف
-        const forcePlay = () => {
-          bgMusic.play();
-          document.removeEventListener("click", forcePlay);
-          document.removeEventListener("touchstart", forcePlay);
-        };
-        document.addEventListener("click", forcePlay);
-        document.addEventListener("touchstart", forcePlay);
-      });
     const messageText = "Happy birthday to the most beautiful gift God has given me. I love your smile, your words, your playful spirit, and the way you look at me. Always stay radiant and happy, your smile makes my life more beautiful. I will always be by your side and proud of you.";
 
     /* عند الضغط على الظرف */

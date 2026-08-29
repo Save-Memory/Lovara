@@ -1452,28 +1452,5 @@ html, body {
     font-size: 1.1rem !important;
   }
 }
-/* 📍 1. تثبيت زرار الصوت فوراً بدون التأثير على حركة الكروت */
-.music-btn, #musicToggle {
-  position: fixed !important;
-  top: 20px !important;
-  left: 20px !important;
-  z-index: 9999 !important;
-}
-
-/* 🔒 2. منع السحب الأفقي الشامل للصفحة مع السماح للبروز */
-html, body {
-  width: 100%;
-  overflow-x: hidden !important;
-}
-
-/* 🃏 3. السماح للكروت بالبروز لبرة والخروج من الإطار لعمل المؤثرات بحرية */
-.pro-gallery-container,
-.swiper {
-  overflow: visible !important; /* إرجاع البروز والمؤثرات */
-}
-
-.swiper-slide {
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-touch-callout: none;
+touch-callout: none;
 }

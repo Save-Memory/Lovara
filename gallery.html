@@ -13,6 +13,10 @@
 </head>
 <body class="page-center">
 
+  <button id="musicToggle" class="music-btn" aria-label="Toggle Music">
+    <span id="musicIcon">🎵</span>
+  </button>
+
   <div class="hearts-container">
     <div class="heart-item h-left-1"></div>
     <div class="heart-item h-left-2"></div>
@@ -213,17 +217,21 @@
         });
       }
 
-      // 🃏 2. التحكم في السلايدر والتفاعل مع الكروت
-      const swiperInstance = document.querySelector('.swiper')?.swiper;
+      // 🃏 2. الحصول على كائن Swiper بأمان
+      function getSwiperInstance() {
+        return document.querySelector('.mySwiper')?.swiper;
+      }
 
       function toggleSwiperControls(disable) {
-        if (!swiperInstance) return;
-        swiperInstance.allowTouchMove = !disable; 
-        if (swiperInstance.navigation) {
-          disable ? swiperInstance.navigation.disable() : swiperInstance.navigation.enable(); 
+        const swiperInst = getSwiperInstance();
+        if (!swiperInst) return;
+        swiperInst.allowTouchMove = !disable; 
+        if (swiperInst.navigation) {
+          disable ? swiperInst.navigation.disable() : swiperInst.navigation.enable(); 
         }
       }
 
+      // إضافة تفاعل الضغط والقلب للكروت
       document.querySelectorAll('.swiper-slide').forEach(slide => {
         slide.addEventListener('click', function(e) {
           e.stopPropagation();
@@ -232,15 +240,12 @@
           const isFlipped = this.classList.contains('is-flipped');
 
           if (!isPopped) {
-            // الضغطة 1: بروز الكارت
             document.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('is-popped', 'is-flipped'));
             this.classList.add('is-popped');
             toggleSwiperControls(true); 
           } else if (isPopped && !isFlipped) {
-            // الضغطة 2: قلب الكارت للظهر
             this.classList.add('is-flipped');
           } else {
-            // الضغطة 3: رجوع الكارت لمكانه
             this.classList.remove('is-popped', 'is-flipped');
             toggleSwiperControls(false); 
           }
@@ -253,7 +258,8 @@
       });
 
       window.addEventListener('resize', () => {
-        if (swiperInstance) swiperInstance.update();
+        const swiperInst = getSwiperInstance();
+        if (swiperInst) swiperInst.update();
       });
     });
   </script>

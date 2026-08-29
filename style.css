@@ -1452,3 +1452,27 @@ html, body {
     font-size: 1.1rem !important;
   }
 }
+/* 🔒 تثبيت شاشة المعرض ومنع الاهتزاز وقت الـ Scroll */
+html, body {
+  overflow-x: hidden !important; /* منع أي تحرك أوفقي للشاشة */
+  touch-action: pan-y; /* تخصيص اللمس للـ Scroll الرأسي فقط */
+}
+
+/* تثبيت الحاوية الرئيسية للمعرض */
+.pro-gallery-container {
+  touch-action: pan-y;
+  position: relative;
+  z-index: 10;
+}
+
+/* منع الكروت نفسها من الخروج أو الاهتزاز أثناء السحب */
+.swiper {
+  touch-action: pan-y;
+  overflow: hidden !important; /* قاطع أي أجزاء تخرج عن كادر المعرض */
+}
+
+.swiper-slide {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}

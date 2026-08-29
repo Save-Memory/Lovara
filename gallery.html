@@ -227,15 +227,45 @@
      const swiperInstance = document.querySelector('.swiper')?.swiper;
 
 
-// 🃏 إرجاع إعدادات الحركة الكاملة ومنع الشاشة من الاهتزاز
-const swiperInstance = document.querySelector('.swiper')?.swiper;
+// 🃏 1. إعادة بناء Swiper بنفس الحركة والبروز الأصليين + تثبيت حركة الشاشة
+const swiper = new Swiper('.mySwiper', {
+  effect: 'cards',             // تأثير كروت الـ 3D الأصلي
+  grabCursor: true,
+  initialSlide: 0,
+  nested: true,                // حصر حركة السحب داخل الكروت فقط عشان الشاشة ماتتحركش
+  touchReleaseOnEdges: true,   // السماح للصفحة تعمل Scroll رأسي بنعومة
+  cardsEffect: {
+    perSlideRotate: 2,         // درجة دوران الكروت الخلفية
+    perSlideOffset: 8,         // نسبة بروز الكروت
+    slideShadows: false,
+  },
+});
 
-if (swiperInstance) {
-  swiperInstance.params.observer = true;
-  swiperInstance.params.observeParents = true;
-  swiperInstance.params.touchReleaseOnEdges = true; // السماح بالـ Scroll عند حواف المعرض
-  swiperInstance.update();
-}
+// 🃏 2. كود الضغط على الكارت للبروز (is-popped) والقلب (is-flipped)
+document.querySelectorAll('.swiper-slide').forEach(slide => {
+  slide.addEventListener('click', function(e) {
+    e.stopPropagation();
+    
+    const isPopped = this.classList.contains('is-popped');
+    const isFlipped = this.classList.contains('is-flipped');
+
+    if (!isPopped) {
+      document.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('is-popped', 'is-flipped'));
+      this.classList.add('is-popped');
+      swiper.allowTouchMove = false; // إيقاف السحب أثناء بروز الكارت
+    } else if (isPopped && !isFlipped) {
+      this.classList.add('is-flipped');
+    } else {
+      this.classList.remove('is-popped', 'is-flipped');
+      swiper.allowTouchMove = true;  // إعادة السحب عند إغلاق الكارت
+    }
+  });
+});
+
+document.addEventListener('click', () => {
+  document.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('is-popped', 'is-flipped'));
+  if (swiper) swiper.allowTouchMove = true;
+});
 
       function toggleSwiperControls(disable) {
         if (!swiperInstance) return;

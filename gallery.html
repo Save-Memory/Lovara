@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Memories Album</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,93 +12,71 @@
   <link rel="preload" as="image" href="memory-1.gif">
 </head>
 <body class="page-center">
-<!-- زر التحكم في الموسيقى -->
-<button id="musicToggle" class="music-btn" aria-label="Toggle Music">
-  <span id="musicIcon">🎵</span>
-</button>
-  <!-- خلفية القلوب الثابتة والمتحركة -->
-<div class="hearts-container">
-  <!-- القلوب على يسار الشاشة -->
-  <div class="heart-item h-left-1"></div>
-  <div class="heart-item h-left-2"></div>
-  <div class="heart-item h-left-3"></div>
-  <div class="heart-item h-left-4"></div>
 
-  <!-- القلوب على يمين الشاشة -->
-  <div class="heart-item h-right-1"></div>
-  <div class="heart-item h-right-2"></div>
-  <div class="heart-item h-right-3"></div>
-  <div class="heart-item h-right-4"></div>
-</div>
+  <button id="musicToggle" class="music-btn" aria-label="Toggle Music">
+    <span id="musicIcon">🎵</span>
+  </button>
+
+  <div class="hearts-container">
+    <div class="heart-item h-left-1"></div>
+    <div class="heart-item h-left-2"></div>
+    <div class="heart-item h-left-3"></div>
+    <div class="heart-item h-left-4"></div>
+
+    <div class="heart-item h-right-1"></div>
+    <div class="heart-item h-right-2"></div>
+    <div class="heart-item h-right-3"></div>
+    <div class="heart-item h-right-4"></div>
+  </div>
 
   <div class="section-title">
     <h2><i>.I love every memory in every photo with you</i></h2>
-    <p>
-Drag the image or use the arrows, and tap on the image</p>
+    <p>Drag the image or use the arrows, and tap on the image</p>
   </div>
 
-  <!-- معرض الصور التفاعلي -->
   <div class="pro-gallery-container">
-    
     <div class="swiper mySwiper">
       <div class="swiper-wrapper">
         
-      <!-- كارت 1 -->
-<div class="swiper-slide">
-  <div class="card-inner">
-    <div class="card-front">
-      <div class="burgundy-frame">
-        <!-- src: الصورة الثابتة (الفريم) | data-gif: ملف الـ GIF المتحرك -->
-        <img class="card-image" 
-             src="Memory1.png" 
-             alt="Static Image">
-            <div class="card-overlay">
+        <div class="swiper-slide">
+          <div class="card-inner">
+            <div class="card-front">
+              <div class="burgundy-frame">
+                <img class="card-image" src="Memory1.png" alt="Static Image">
+                <div class="card-overlay">
                   <span class="card-badge">🤎</span>
                   <p class="card-caption">5/2/2026</p>
                 </div>
               </div>
             </div>
-          
             <div class="card-back">
-              
               <p class="back-text">Somehow, even the most random moments with you become my favorite memories, you are literally my favorite person and my favorite place</p>
             </div>
           </div>
         </div>
 
-        <!-- كارت 2 -->
         <div class="swiper-slide">
           <div class="card-inner">
             <div class="card-front">
               <div class="burgundy-frame">
-               <img class="card-image" 
-     src="car-thumb.png" 
-     data-gif="car.gif" 
-    fetchpriority="high" 
-     decoding="async"
-     alt="gLovara">
-        <div class="card-overlay">
-          <span class="card-badge">🤎</span>
-          <p class="card-caption">20/6/2026</p>
+                <img class="card-image" src="car-thumb.png" data-gif="car.gif" fetchpriority="high" decoding="async" alt="gLovara">
+                <div class="card-overlay">
+                  <span class="card-badge">🤎</span>
+                  <p class="card-caption">20/6/2026</p>
+                </div>
+              </div>
+            </div>
+            <div class="card-back">
+              <p class="back-text">Your voice and your laughter, that random pictures, the stupid jokes, and our late-night conversations—every moment spent with you is a memory deeply etched in my heart</p>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="card-back">
-      
-      <p class="back-text">Your voice and your laughter, that random pictures, the stupid jokes, and our late-night conversations—every moment spent with you is a memory deeply etched in my heart</p>
-    </div>
-  </div>
-</div>
 
-
-        <!-- كارت 3 -->
         <div class="swiper-slide">
           <div class="card-inner">
             <div class="card-front">
               <div class="burgundy-frame">
-                 <img class="card-image" 
-                src="memory2.png" 
-             alt="Static Image">
+                <img class="card-image" src="memory2.png" alt="Static Image">
                 <div class="card-overlay">
                   <span class="card-badge">🤎</span>
                   <p class="card-caption">26/3/2026</p>
@@ -106,174 +84,182 @@ Drag the image or use the arrows, and tap on the image</p>
               </div>
             </div>
             <div class="card-back">
-            
-              <p class="back-text"> Perhaps this is what I like most about us; it isn't really about where we are or what we're doing,it’s all about simply being together</p>
+              <p class="back-text">Perhaps this is what I like most about us; it isn't really about where we are or what we're doing,it’s all about simply being together</p>
             </div>
           </div>
         </div>
 
-        <!-- كارت 4 -->
         <div class="swiper-slide">
           <div class="card-inner">
             <div class="card-front">
               <div class="burgundy-frame">
-                <img class="card-image" 
-             src="ride-thumb.png" 
-             data-gif="ride.gif" 
-            fetchpriority="high" 
-     decoding="async"
-             alt="gLovara">
-        <div class="card-overlay">
-          <span class="card-badge">🤎</span>
-          <p class="card-caption">27/4/2026</p>
-        </div>
-      </div>
-    </div>
-    <div class="card-back">
-     
-      <p class="back-text">Just two idiots making memories together, we truly lived the best kind of madness, and I’m ready to do it all over again with you</p>
-    </div>
-  </div>
-</div>
-  <!-- كارت 5 -->
-        <div class="swiper-slide">
-          <div class="card-inner">
-            <div class="card-front">
-              <div class="burgundy-frame">
-                 <img class="card-image" 
-                src="memory4.png" 
-             alt="Static Image">
+                <img class="card-image" src="ride-thumb.png" data-gif="ride.gif" fetchpriority="high" decoding="async" alt="gLovara">
                 <div class="card-overlay">
-                  <span class="card-badge">🤎 </span>
+                  <span class="card-badge">🤎</span>
+                  <p class="card-caption">27/4/2026</p>
+                </div>
+              </div>
+            </div>
+            <div class="card-back">
+              <p class="back-text">Just two idiots making memories together, we truly lived the best kind of madness, and I’m ready to do it all over again with you</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="card-inner">
+            <div class="card-front">
+              <div class="burgundy-frame">
+                <img class="card-image" src="memory4.png" alt="Static Image">
+                <div class="card-overlay">
+                  <span class="card-badge">🤎</span>
                   <p class="card-caption">31/7/2026</p>
                 </div>
               </div>
             </div>
             <div class="card-back">
-              
               <p class="back-text">We truly created unforgettable memories, I can't believe we actually lived through all these moments</p>
             </div>
           </div>
         </div>
 
-        <!-- كارت 4 -->
         <div class="swiper-slide">
           <div class="card-inner">
             <div class="card-front">
               <div class="burgundy-frame">
-                <img class="card-image" 
-             src="cinema-thumb.png" 
-             data-gif="cinema.gif" 
-             fetchpriority="high" 
-     decoding="async"
-             alt="gLovara">
-        <div class="card-overlay">
-          <span class="card-badge">MJ</span>
-          <p class="card-caption">31/7/2026</p>
+                <img class="card-image" src="cinema-thumb.png" data-gif="cinema.gif" fetchpriority="high" decoding="async" alt="gLovara">
+                <div class="card-overlay">
+                  <span class="card-badge">MJ</span>
+                  <p class="card-caption">31/7/2026</p>
+                </div>
+              </div>
+            </div>
+            <div class="card-back">
+              <p class="back-text">Every Spider-Man needs his MJ ,and in every universe, I'd still choose you</p>
+              <p class="back-text">I really love you Maloka</p>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="card-back">
-     
-      <p class="back-text"> Every Spider-Man needs his MJ ,and in every universe, I'd still choose you </p>
-    <p class="back-text"> I really love you Maloka</p>
-    
-    </div>
-  </div>
-</div>
+
       </div>
     </div>
 
-    <!-- أسهم التنقل -->
     <div class="gallery-controls">
       <button class="nav-arrow prev-arrow" id="prevBtn">❮</button>
       <button class="nav-arrow next-arrow" id="nextBtn">❯</button>
     </div>
-
   </div>
 
   <a href="letter.html" class="explore-btn">
     <span><i>More surprises for you</i></span>
-    
   </a>
 
-<audio id="bgmusic" src="music.mp3"preload="auto" loop></audio>
+  <audio id="bgMusic" src="music.mp3" preload="auto" loop></audio>
+
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script src="script.js"></script>
   <script>
-  document.addEventListener("DOMContentLoaded", function () {
     document.addEventListener("DOMContentLoaded", function () {
-      // 🎵 1. تشغيل وتأمين الصوت فوراً
-      const bgmusic = document.getElementById("bgMusic");
+      const bgMusic = document.getElementById("bgMusic");
+      const musicToggle = document.getElementById("musicToggle");
+      const musicIcon = document.getElementById("musicIcon");
+
+      // 🎵 1. إدارة تشغيل الموسيقى والزرار الشفاف
+      function updateMusicUI() {
+        if (!bgMusic || !musicIcon) return;
+        if (bgMusic.paused) {
+          musicIcon.textContent = "🔇";
+        } else {
+          musicIcon.textContent = "🎵";
+        }
+      }
 
       const savedTime = localStorage.getItem("audioTime");
+      const isMuted = localStorage.getItem("audioMuted") === "true";
+
       if (savedTime && bgMusic) {
-        bgmusic.currentTime = parseFloat(savedTime);
+        bgMusic.currentTime = parseFloat(savedTime);
       }
 
-      function startAudioFast() {
-        if (bgmusic && bgmusic.paused) {
-          bgmusic.play().catch(() => {});
-        }
+      if (!isMuted && bgMusic) {
+        bgMusic.play().then(updateMusicUI).catch(() => {
+          // فك حظر الآيفون مع أول لمسة للشاشة
+          const forcePlay = () => {
+            if (!localStorage.getItem("audioMuted") || localStorage.getItem("audioMuted") === "false") {
+              bgMusic.play().then(updateMusicUI).catch(() => {});
+            }
+            window.removeEventListener("touchstart", forcePlay);
+            window.removeEventListener("click", forcePlay);
+          };
+          window.addEventListener("touchstart", forcePlay, { passive: true });
+          window.addEventListener("click", forcePlay);
+        });
+      } else {
+        updateMusicUI();
       }
 
-      startAudioFast();
+      // تشغيل/إيقاف بالزرار الشفاف
+      if (musicToggle) {
+        musicToggle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (!bgMusic) return;
 
-      // لتخطي حظر المتصفح فور لمس الشاشة
-      document.addEventListener("touchstart", startAudioFast, { once: true });
-      document.addEventListener("click", startAudioFast, { once: true });
-
-      // حفظ الوقت باستمرار
-      if (bgmusic) {
-        bgmusic.addEventListener("timeupdate", () => {
-          localStorage.setItem("audioTime", bgmusic.currentTime);
+          if (bgMusic.paused) {
+            bgMusic.play().then(() => {
+              localStorage.setItem("audioMuted", "false");
+              updateMusicUI();
+            });
+          } else {
+            bgMusic.pause();
+            localStorage.setItem("audioMuted", "true");
+            updateMusicUI();
+          }
         });
       }
-    const swiperInstance = document.querySelector('.swiper')?.swiper;
 
-    function toggleSwiperControls(disable) {
-      if (!swiperInstance) return;
-      if (disable) {
-        swiperInstance.allowTouchMove = false; 
+      // حفظ التوقيت باستمرار
+      if (bgMusic) {
+        bgMusic.addEventListener("timeupdate", () => {
+          localStorage.setItem("audioTime", bgMusic.currentTime);
+        });
+      }
+
+      // 🃏 2. التحكم في حركة الكروت و Swiper
+      const swiperInstance = document.querySelector('.swiper')?.swiper;
+
+      function toggleSwiperControls(disable) {
+        if (!swiperInstance) return;
+        swiperInstance.allowTouchMove = !disable; 
         if (swiperInstance.navigation) {
-          swiperInstance.navigation.disable(); 
-        }
-      } else {
-        swiperInstance.allowTouchMove = true; 
-        if (swiperInstance.navigation) {
-          swiperInstance.navigation.enable(); 
+          disable ? swiperInstance.navigation.disable() : swiperInstance.navigation.enable(); 
         }
       }
-    }
 
-    document.querySelectorAll('.swiper-slide').forEach(slide => {
-      slide.addEventListener('click', function(e) {
-        e.stopPropagation();
-        
-        const isPopped = this.classList.contains('is-popped');
-        const isFlipped = this.classList.contains('is-flipped');
+      document.querySelectorAll('.swiper-slide').forEach(slide => {
+        slide.addEventListener('click', function(e) {
+          e.stopPropagation();
+          
+          const isPopped = this.classList.contains('is-popped');
+          const isFlipped = this.classList.contains('is-flipped');
 
-        if (!isPopped) {
-          // الضغطة 1: الكارت يبرز للأمام وتجميد التنقل
-          document.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('is-popped', 'is-flipped'));
-          this.classList.add('is-popped');
-          toggleSwiperControls(true); 
-        } else if (isPopped && !isFlipped) {
-          // الضغطة 2: ينقلب لظهر الكارت فقط وهو بارز
-          this.classList.add('is-flipped');
-        } else {
-          // الضغطة 3: العودة للوضع الأصلي وإعادة تفعيل التنقل
-          this.classList.remove('is-popped', 'is-flipped');
-          toggleSwiperControls(false); 
-        }
+          if (!isPopped) {
+            document.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('is-popped', 'is-flipped'));
+            this.classList.add('is-popped');
+            toggleSwiperControls(true); 
+          } else if (isPopped && !isFlipped) {
+            this.classList.add('is-flipped');
+          } else {
+            this.classList.remove('is-popped', 'is-flipped');
+            toggleSwiperControls(false); 
+          }
+        });
+      });
+
+      document.addEventListener('click', () => {
+        document.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('is-popped', 'is-flipped'));
+        toggleSwiperControls(false);
       });
     });
-
-    document.addEventListener('click', () => {
-      document.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('is-popped', 'is-flipped'));
-      toggleSwiperControls(false);
-    });
-  });
-</script>
+  </script>
 </body>
 </html>

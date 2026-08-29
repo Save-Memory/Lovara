@@ -223,79 +223,52 @@
         });
       }
 
+document.addEventListener("DOMContentLoaded", function () {
+    const swiperInstance = document.querySelector('.swiper')?.swiper;
 
-// 🃏 1. إعادة بناء Swiper بنفس الحركة والبروز الأصليين + تثبيت حركة الشاشة
-const swiper = new Swiper('.mySwiper', {
-  effect: 'cards',             // تأثير كروت الـ 3D الأصلي
-  grabCursor: true,
-  initialSlide: 0,
-  nested: true,                // حصر حركة السحب داخل الكروت فقط عشان الشاشة ماتتحركش
-  touchReleaseOnEdges: true,   // السماح للصفحة تعمل Scroll رأسي بنعومة
-  cardsEffect: {
-    perSlideRotate: 2,         // درجة دوران الكروت الخلفية
-    perSlideOffset: 8,         // نسبة بروز الكروت
-    slideShadows: false,
-  },
-});
-
-// 🃏 2. كود الضغط على الكارت للبروز (is-popped) والقلب (is-flipped)
-document.querySelectorAll('.swiper-slide').forEach(slide => {
-  slide.addEventListener('click', function(e) {
-    e.stopPropagation();
-    
-    const isPopped = this.classList.contains('is-popped');
-    const isFlipped = this.classList.contains('is-flipped');
-
-    if (!isPopped) {
-      document.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('is-popped', 'is-flipped'));
-      this.classList.add('is-popped');
-      swiper.allowTouchMove = false; // إيقاف السحب أثناء بروز الكارت
-    } else if (isPopped && !isFlipped) {
-      this.classList.add('is-flipped');
-    } else {
-      this.classList.remove('is-popped', 'is-flipped');
-      swiper.allowTouchMove = true;  // إعادة السحب عند إغلاق الكارت
-    }
-  });
-});
-
-document.addEventListener('click', () => {
-  document.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('is-popped', 'is-flipped'));
-  if (swiper) swiper.allowTouchMove = true;
-});
-
-      function toggleSwiperControls(disable) {
-        if (!swiperInstance) return;
-        swiperInstance.allowTouchMove = !disable; 
+    function toggleSwiperControls(disable) {
+      if (!swiperInstance) return;
+      if (disable) {
+        swiperInstance.allowTouchMove = false; 
         if (swiperInstance.navigation) {
-          disable ? swiperInstance.navigation.disable() : swiperInstance.navigation.enable(); 
+          swiperInstance.navigation.disable(); 
+        }
+      } else {
+        swiperInstance.allowTouchMove = true; 
+        if (swiperInstance.navigation) {
+          swiperInstance.navigation.enable(); 
         }
       }
+    }
 
-      document.querySelectorAll('.swiper-slide').forEach(slide => {
-        slide.addEventListener('click', function(e) {
-          e.stopPropagation();
-          
-          const isPopped = this.classList.contains('is-popped');
-          const isFlipped = this.classList.contains('is-flipped');
+    document.querySelectorAll('.swiper-slide').forEach(slide => {
+      slide.addEventListener('click', function(e) {
+        e.stopPropagation();
+        
+        const isPopped = this.classList.contains('is-popped');
+        const isFlipped = this.classList.contains('is-flipped');
 
-          if (!isPopped) {
-            document.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('is-popped', 'is-flipped'));
-            this.classList.add('is-popped');
-            toggleSwiperControls(true); 
-          } else if (isPopped && !isFlipped) {
-            this.classList.add('is-flipped');
-          } else {
-            this.classList.remove('is-popped', 'is-flipped');
-            toggleSwiperControls(false); 
-          }
-        });
+        if (!isPopped) {
+          // الضغطة 1: الكارت يبرز للأمام وتجميد التنقل
+          document.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('is-popped', 'is-flipped'));
+          this.classList.add('is-popped');
+          toggleSwiperControls(true); 
+        } else if (isPopped && !isFlipped) {
+          // الضغطة 2: ينقلب لظهر الكارت فقط وهو بارز
+          this.classList.add('is-flipped');
+        } else {
+          // الضغطة 3: العودة للوضع الأصلي وإعادة تفعيل التنقل
+          this.classList.remove('is-popped', 'is-flipped');
+          toggleSwiperControls(false); 
+        }
       });
+    });
 
-      document.addEventListener('click', () => {
-        document.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('is-popped', 'is-flipped'));
-        toggleSwiperControls(false);
-      });
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('is-popped', 'is-flipped'));
+      toggleSwiperControls(false);
+    });
+  });
 
       // إعادة ضبط مقاسات Swiper عند تغير العرض في الآيفون
       window.addEventListener('resize', () => {

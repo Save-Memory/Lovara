@@ -2,7 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">  <title>Memories Album</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Memories Album</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playfair+Display:ital,wght@0,500;1,400&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
@@ -182,7 +183,6 @@
 
       if (!isMuted && bgMusic) {
         bgMusic.play().then(updateMusicUI).catch(() => {
-          // فك حظر الآيفون مع أول لمسة للشاشة
           const forcePlay = () => {
             if (!localStorage.getItem("audioMuted") || localStorage.getItem("audioMuted") === "false") {
               bgMusic.play().then(updateMusicUI).catch(() => {});
@@ -223,8 +223,15 @@
         });
       }
 
-      // 🃏 2. التحكم في حركة الكروت و Swiper
+      // 🃏 2. التحكم في حركة الكروت و Swiper مع حماية الآيفون
       const swiperInstance = document.querySelector('.swiper')?.swiper;
+
+      if (swiperInstance) {
+        // إجبار Swiper على إعادة تقييم الحجم تلقائياً للآيفون
+        swiperInstance.params.observer = true;
+        swiperInstance.params.observeParents = true;
+        swiperInstance.update();
+      }
 
       function toggleSwiperControls(disable) {
         if (!swiperInstance) return;
@@ -257,6 +264,11 @@
       document.addEventListener('click', () => {
         document.querySelectorAll('.swiper-slide').forEach(s => s.classList.remove('is-popped', 'is-flipped'));
         toggleSwiperControls(false);
+      });
+
+      // إعادة ضبط مقاسات Swiper عند تغير العرض في الآيفون
+      window.addEventListener('resize', () => {
+        if (swiperInstance) swiperInstance.update();
       });
     });
   </script>

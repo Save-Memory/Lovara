@@ -224,14 +224,17 @@
       }
 
       // 🃏 2. التحكم في حركة الكروت و Swiper مع حماية الآيفون
-      const swiperInstance = document.querySelector('.swiper')?.swiper;
+     const swiperInstance = document.querySelector('.swiper')?.swiper;
 
-      if (swiperInstance) {
-        // إجبار Swiper على إعادة تقييم الحجم تلقائياً للآيفون
-        swiperInstance.params.observer = true;
-        swiperInstance.params.observeParents = true;
-        swiperInstance.update();
-      }
+if (swiperInstance) {
+  // إعدادات منع الاهتزاز وتثبيت الكروت
+  swiperInstance.params.observer = true;
+  swiperInstance.params.observeParents = true;
+  swiperInstance.params.touchReleaseOnEdges = true; // فصل حركة الـ Scroll عن الصور
+  swiperInstance.params.resistanceRatio = 0;        // منع شد الكارت خارج حدود الشاشة
+  swiperInstance.params.nested = true;             // احتواء حركة السحب داخل الكارت فقط
+  swiperInstance.update();
+}
 
       function toggleSwiperControls(disable) {
         if (!swiperInstance) return;

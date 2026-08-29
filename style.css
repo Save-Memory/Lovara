@@ -1,39 +1,36 @@
-/* جعل جميع العناصر تحسب الأبعاد بشكل مظبوط */
+/* =========================================
+   1. الإعدادات العامة وضبط الشاشة للآيفون و Safari
+   ========================================= */
 * {
   box-sizing: border-box;
-}
-
-/* ضبط جسم الصفحة ليأخذ الشاشة بالكامل دون زيادة */
-html, body {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden; /* يمنع اهتزاز أو خروج الصفحة لليمين واليسار */
   margin: 0;
   padding: 0;
 }
 
-/* جعل الصور والفيديوهات تتصغر وتتكبر تلقائياً حسب الشاشة */
+html {
+  scroll-behavior: smooth;
+  width: 100%;
+  max-width: 100vw;
+  height: 100%;
+  -webkit-text-size-adjust: 100%; /* يمنع الآيفون من تكبير الخطوط تلقائياً */
+}
+
+body {
+  background-color: #f5eee4;
+  color: #3b332c;
+  font-family: 'Cormorant Garamond', 'Amiri', serif;
+  width: 100%;
+  max-width: 100vw;
+  min-height: 100vh;
+  min-height: -webkit-fill-available; /* حل الارتفاع الخاص بمتصفح Safari */
+  overflow-x: hidden; /* يمنع اهتزاز أو خروج الصفحة لليمين واليسار */
+  position: relative;
+}
+
+/* تسريع وسلاسة الصور على الموبايل */
 img, video {
   max-width: 100%;
   height: auto;
-}
-/* ❌ بدلاً من عرض ثابت يكسر الشاشات الصغيرة:
-.main-letter-wrapper {
-  width: 450px;
-}
-*/
-
-/* 🟢 الكود المظبوط المتجاوب: */
-.main-letter-wrapper {
-  width: 90%;          /* يأخذ 90% من عرض أي شاشة */
-  max-width: 450px;    /* ولكن لا يزيد عن 450px في شاشات الكمبيوتر الكبيرة */
-  margin: 0 auto;       /* تجميع العنصر في منتصف الشاشة */
-}
-/* =========================================
-   تنعيم السكرول وتسريع الصور على الموبايل
-   ========================================= */
-html {
-  scroll-behavior: smooth;
 }
 
 img, .card-image {
@@ -41,22 +38,11 @@ img, .card-image {
   transform: translateZ(0);
 }
 
-/* =========================================
-   1. الإعدادات العامة والخلفية
-   ========================================= */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  background-color: #f5eee4;
-  color: #3b332c;
-  font-family: 'Cormorant Garamond', 'Amiri', serif;
-  min-height: 100vh;
-  overflow-x: hidden;
-  position: relative;
+/* ضبط أبعاد الحاويات الرئيسية لجعلها متجاوبة */
+.main-letter-wrapper {
+  width: 90%;
+  max-width: 450px;
+  margin: 0 auto;
 }
 /* =========================================
    1. الإعدادات العامة والخلفية
@@ -1403,4 +1389,17 @@ html, body {
 /* تأثير ضغطة صغيّر على الإيموجي نفسه */
 .music-btn:active {
   transform: scale(0.85);
+}
+/* ضبط أحجام الكروت لشاشة الآيفون */
+@media screen and (max-width: 480px) {
+  .pro-gallery-container {
+    width: 95% !important;
+    max-width: 100% !important;
+    margin: 0 auto;
+  }
+
+  .card-letter {
+    width: 88vw !important;
+    max-width: 330px !important;
+  }
 }

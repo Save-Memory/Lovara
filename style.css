@@ -1459,40 +1459,32 @@ touch-callout: none;
 .card-overlay, 
 .burgundy-frame {
   pointer-events: none;
-/* 1. قفل السحب الأفقي ومنع اهتزاز الشاشة في iOS */
+/* 1. تثبيت الشاشة ومنع الارتداد تماماً في Safari */
 html, body {
+  position: fixed;
   width: 100%;
   height: 100%;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: none; /* يمنع الارتداد الرأسي والأفقي */
-}
-
-/* 2. فصل مسار لمس السلايدر تماماً عن باقي الشاشة */
-.swiper {
-  touch-action: pan-y pinch-zoom !important; /* يسمح للسلايدر بامتصاص السحب */
   overflow: hidden;
+  touch-action: none; /* يمنع تحريك الشاشة الأصلية نهائياً */
 }
 
-.swiper-wrapper {
-  touch-action: pan-x !important;
-  -webkit-user-select: none;
+/* 2. حصر التمرير والسحب داخل حاوية المعرض فقط */
+.gallery-container, .swiper {
+  width: 100%;
+  height: 100%;
+  touch-action: pan-x !important; /* تخصيص السحب أفقياً فقط للصور */
+}
+
+/* 3. إلغاء التقاط الصور والطبقات الداخلية للإيماءات */
+.swiper-slide * {
+  pointer-events: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
   user-select: none;
 }
 
-/* 3. إلغاء أي تفاعل مع العناصر الداخلية لتمرير اللمس فوراً للكارت */
-.swiper-slide,
-.swiper-slide img,
-.card-image,
-.card-overlay,
-.burgundy-frame {
-  touch-action: pan-x !important;
-  pointer-events: none; /* يمنع الصورة من حجب السحب */
-  -webkit-user-drag: none;
-  -webkit-touch-callout: none;
-}
-
-/* إعادة تفعيل اللمس للكارت فقط لالتقاط الضغط */
+/* 4. إتاحة الضغط والسحب للكارت نفسه فقط */
 .swiper-slide {
   pointer-events: auto !important;
+  touch-action: pan-x !important;
 }

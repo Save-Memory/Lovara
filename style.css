@@ -1452,32 +1452,28 @@ html, body {
     font-size: 1.1rem !important;
   }
 }
-/* 📍 1. تثبيت زرار الصوت في أعلى الشاشة بشكل مستقل تماماً */
+/* 📍 1. تثبيت زرار الصوت فوراً بدون التأثير على حركة الكروت */
 .music-btn, #musicToggle {
-  position: fixed !important; /* تثبيت في الشاشة مش الصفحة */
+  position: fixed !important;
   top: 20px !important;
   left: 20px !important;
-  z-index: 9999 !important; /* يفضل طافي فوق كل العناصر */
-  transform: none !important; /* منع أي حركة تأتي من العناصر المجاورة */
+  z-index: 9999 !important;
 }
 
-/* 🔒 2. منع الصفحة والكروت من الاهتزاز أو سحب باقي العناصر */
+/* 🔒 2. منع السحب الأفقي الشامل للصفحة مع السماح للبروز */
 html, body {
   width: 100%;
-  height: 100%;
   overflow-x: hidden !important;
-  position: relative;
 }
 
-.pro-gallery-container {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  max-width: 380px;
-  margin: 0 auto;
-}
-
+/* 🃏 3. السماح للكروت بالبروز لبرة والخروج من الإطار لعمل المؤثرات بحرية */
+.pro-gallery-container,
 .swiper {
-  overflow: hidden !important;
-  touch-action: pan-y; /* يمنع التضارب بين السحب الأفقي والرأسي */
+  overflow: visible !important; /* إرجاع البروز والمؤثرات */
+}
+
+.swiper-slide {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }

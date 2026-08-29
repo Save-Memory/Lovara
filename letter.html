@@ -62,33 +62,23 @@
     <span>↩</span> Go back
   </a>
 
-  <!-- عنصر الموسيقى -->
+ <!-- عنصر الصوت -->
   <audio id="bgMusic" src="music.mp3" preload="auto" loop></audio>
 
+  <script src="script.js"></script>
   <script>
-    const envelope = document.getElementById("sealedEnvelope");
-    const letter = document.getElementById("fullLetter");
-    const darkOverlay = document.getElementById("darkOverlay");
-    const typewriterText = document.getElementById("typewriterText");
-    const bgMusic = document.getElementById("bgMusic");
-    const backBtn = document.getElementById("backLink");
-    const musicToggle = document.getElementById("musicToggle");
-    const musicIcon = document.getElementById("musicIcon");
+    document.addEventListener("DOMContentLoaded", function () {
+      const bgMusic = document.getElementById("bgMusic");
+      const musicToggle = document.getElementById("musicToggle");
+      const musicIcon = document.getElementById("musicIcon");
 
-    const messageText = "Happy birthday to the most beautiful gift God has given me. I love your smile, your words, your playful spirit, and the way you look at me. Always stay radiant and happy, your smile makes my life more beautiful. I will always be by your side and proud of you.";
-
-    // تحديث شكل الإيموجي (🎵 أو 🔇)
-    function updateMusicUI() {
-      if (!bgMusic || !musicIcon) return;
-      if (bgMusic.paused) {
-        musicIcon.textContent = "🔇";
-      } else {
-        musicIcon.textContent = "🎵";
+      // 1. تحديث شكل زر الموسيقى (أيقونة 🎵 أو 🔇)
+      function updateMusicUI() {
+        if (!bgMusic || !musicIcon) return;
+        musicIcon.textContent = bgMusic.paused ? "🔇" : "🎵";
       }
-    }
 
-    // استرجاع حالة وقت الموسيقى والـ Mute
-    function initAudio() {
+      // 2. استرجاع توقيت الموسيقى والحالة
       const savedTime = localStorage.getItem("audioTime");
       const isMuted = localStorage.getItem("audioMuted") === "true";
 
@@ -96,34 +86,51 @@
         bgMusic.currentTime = parseFloat(savedTime);
       }
 
+      // 3. تشغيل الموسيقى إذا لم تكن مكتومة
       if (!isMuted && bgMusic) {
         bgMusic.play().then(updateMusicUI).catch(() => {
-          updateMusicUI();
+          // حل خاص بالآيفون: تشغيل الصوت فور أول لمسة للشاشة وتحديث الزر
+          const forcePlay = () => {
+            if (localStorage.getItem("audioMuted") !== "true") {
+              bgMusic.play().then(updateMusicUI).catch(() => {});
+            }
+            window.removeEventListener("touchstart", forcePlay);
+            window.removeEventListener("click", forcePlay);
+          };
+          window.addEventListener("touchstart", forcePlay, { passive: true });
+          window.addEventListener("click", forcePlay);
         });
       } else {
         updateMusicUI();
       }
-    }
 
-    // زر التبديل (Play / Pause)
-    if (musicToggle) {
-      musicToggle.addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (!bgMusic) return;
+      // 4. التحكم عند الضغط على زر الموسيقى
+      if (musicToggle) {
+        musicToggle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (!bgMusic) return;
 
-        if (bgMusic.paused) {
-          bgMusic.play().then(() => {
-            localStorage.setItem("audioMuted", "false");
+          if (bgMusic.paused) {
+            bgMusic.play().then(() => {
+              localStorage.setItem("audioMuted", "false");
+              updateMusicUI();
+            });
+          } else {
+            bgMusic.pause();
+            localStorage.setItem("audioMuted", "true");
             updateMusicUI();
-          });
-        } else {
-          bgMusic.pause();
-          localStorage.setItem("audioMuted", "true");
-          updateMusicUI();
-        }
-      });
-    }
+          }
+        });
+      }
 
+      // 5. حفظ الوقت بانتظام
+      if (bgMusic) {
+        bgMusic.addEventListener("timeupdate", () => {
+          localStorage.setItem("audioTime", bgMusic.currentTime);
+        });
+      }
+    });
+  </script>
     // عند الضغط على الظرف
     envelope.addEventListener("click", function () {
       const isMuted = localStorage.getItem("audioMuted") === "true";

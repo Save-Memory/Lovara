@@ -1403,3 +1403,52 @@ html, body {
     max-width: 330px !important;
   }
 }
+/* =========================================
+   تأمين مقاسات المعرض والكروت لشاشات الآيفون Safari
+   ========================================= */
+
+/* منع خروج المعرض أفقياً */
+.pro-gallery-container {
+  width: 100% !important;
+  max-width: 380px !important;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+
+/* ضبط حجم Swiper للآيفون */
+.swiper {
+  width: 82vw !important;
+  max-width: 330px !important;
+  height: clamp(380px, 55vh, 460px) !important;
+  margin: 0 auto;
+}
+
+/* إصلاح مشكلة انقطاع أو خروج الكروت في Safari */
+.swiper-slide {
+  border-radius: 16px;
+  -webkit-backface-visibility: hidden !important;
+  backface-visibility: hidden !important;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden !important;
+  backface-visibility: hidden !important;
+}
+
+/* ضغط المقاس للشاشات الصغرى للآيفون SE أو mini */
+@media screen and (max-width: 375px) {
+  .swiper {
+    width: 88vw !important;
+    max-width: 290px !important;
+    height: 380px !important;
+  }
+  
+  .section-title h2 {
+    font-size: 1.1rem !important;
+  }
+}

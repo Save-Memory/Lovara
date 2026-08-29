@@ -197,8 +197,37 @@ Drag the image or use the arrows, and tap on the image</p>
 <audio id="bgMusic" src="music.mp3" preload="auto" loop></audio>
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script src="script.js"></script>
+
   <script>
   document.addEventListener("DOMContentLoaded", function () {
+    // ==========================================
+    // 🎵 1. كود استكمال وحفظ الموسيقى
+    // ==========================================
+    const bgMusic = document.getElementById("bgMusic");
+
+    if (bgMusic) {
+      // استرجاع الوقت من الصفحة السابقة لو موجود
+      const savedTime = localStorage.getItem('audioTime');
+      if (savedTime) {
+        bgMusic.currentTime = parseFloat(savedTime);
+      }
+
+      // محاولة التشغيل أو الانتظار لأول لمسة
+      bgMusic.play().catch(() => {
+        document.addEventListener('click', () => {
+          bgMusic.play();
+        }, { once: true });
+      });
+
+      // حفظ ثواني الموسيقى باستمرار عشان صفحة letter.html تستكمل منها
+      bgMusic.addEventListener('timeupdate', () => {
+        localStorage.setItem('audioTime', bgMusic.currentTime);
+      });
+    }
+
+    // ==========================================
+    // 🃏 2. كود السلايدر وتحريك الكروت (Swiper)
+    // ==========================================
     const swiperInstance = document.querySelector('.swiper')?.swiper;
 
     function toggleSwiperControls(disable) {
